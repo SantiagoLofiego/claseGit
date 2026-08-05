@@ -4,11 +4,12 @@
   "description": "Herramientas de generacion de material para la capacitacion",
   "private": true,
   "scripts": {
-    "generar": "powershell -File generar-html.ps1"
+    "generar": "powershell -File generar-html.ps1",
+    "cerrar-clase": "powershell -File cerrar-clase.ps1"
   },
   "dependencies": {
     "highlight.js": "^11.10.0",
-    "marked": "^13.0.0"
-    ,"marked-highlight": "^2.1.3"
+    "marked": "^13.0.0",
+    "marked-highlight": "^2.1.3"
   }
 }
