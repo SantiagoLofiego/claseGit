@@ -41,6 +41,3 @@ build/
 
 ### Node.js ###
 node_modules/
-
-### Archivos HTML generados (se regeneran con generar-html.ps1) ###
-clases/**/plataforma/*.html

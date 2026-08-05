@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clase-01 - cheatsheet</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Clase 01 - Cheatsheet</h1>
+<hr>
+<h2>Estructura del proyecto por capas</h2>
+<pre><code class="hljs language-text">src/main/java/com/capacitacion/ecommerce/
+├── controller/       &lt;- Recibe los requests HTTP y devuelve responses
+│   └── ProductController.java
+├── service/          &lt;- Contiene la logica de negocio
+│   └── ProductService.java
+├── dto/              &lt;- Objetos de transferencia de datos (entrada y salida de la API)
+│   ├── ProductRequestDto.java
+│   ├── ProductResponseDto.java
+│   └── ProductStockUpdateDto.java
+└── model/            &lt;- Representa el concepto de negocio (en esta etapa: sin JPA)
+    └── Product.java
+</code></pre><p>Regla clave: la logica va en el service, no en el controller. El controller solo
+delega, lee parametros y devuelve respuestas HTTP.</p>
+<hr>
+<h2>Anotaciones Spring esenciales</h2>
+<h3>A nivel de clase</h3>
+<table>
+<thead>
+<tr>
+<th>Anotacion</th>
+<th>Donde se usa</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@RestController</td>
+<td>Controller</td>
+<td>Indica que la clase atiende requests HTTP y que los metodos devuelven JSON directamente</td>
+</tr>
+<tr>
+<td>@RequestMapping</td>
+<td>Controller</td>
+<td>Define la ruta base del controller, por ejemplo /api/products</td>
+</tr>
+<tr>
+<td>@Service</td>
+<td>Service</td>
+<td>Marca la clase como componente de logica de negocio. Spring la gestiona</td>
+</tr>
+</tbody></table>
+<h3>A nivel de metodo</h3>
+<table>
+<thead>
+<tr>
+<th>Anotacion</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@GetMapping</td>
+<td>Mapea un metodo a una peticion HTTP GET</td>
+</tr>
+<tr>
+<td>@PostMapping</td>
+<td>Mapea un metodo a una peticion HTTP POST</td>
+</tr>
+<tr>
+<td>@PatchMapping</td>
+<td>Mapea un metodo a una peticion HTTP PATCH (actualizacion parcial)</td>
+</tr>
+<tr>
+<td>@PutMapping</td>
+<td>Mapea un metodo a una peticion HTTP PUT (reemplazo completo)</td>
+</tr>
+<tr>
+<td>@DeleteMapping</td>
+<td>Mapea un metodo a una peticion HTTP DELETE</td>
+</tr>
+</tbody></table>
+<h3>A nivel de parametro</h3>
+<table>
+<thead>
+<tr>
+<th>Anotacion</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>@PathVariable</td>
+<td>Lee un valor de la URL, por ejemplo /api/products/{id}</td>
+</tr>
+<tr>
+<td>@RequestBody</td>
+<td>Deserializa el cuerpo del request JSON a un objeto Java</td>
+</tr>
+<tr>
+<td>@RequestParam</td>
+<td>Lee query params de la URL, por ejemplo /api/products?name=laptop</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Inyeccion de dependencias</h2>
+<p>Spring crea y gestiona los objetos (beans). No crear instancias con <code>new</code> en controller o service.</p>
+<p>Forma recomendada: inyeccion por constructor.</p>
+<pre><code class="hljs language-java"><span class="hljs-meta">@RestController</span>
+<span class="hljs-meta">@RequestMapping(&quot;/api/products&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductController</span> {
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> ProductService productService;
+
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ProductController</span><span class="hljs-params">(ProductService productService)</span> {
+        <span class="hljs-built_in">this</span>.productService = productService;
+    }
+}
+</code></pre><p>Cuando la clase tiene un unico constructor, Spring lo detecta automaticamente y no hace falta
+ninguna anotacion extra.</p>
+<p>Sin embargo, si la clase tiene mas de un constructor, Spring no sabe cual usar y lanza un error.
+En ese caso se debe marcar explicitamente el constructor que debe usar con <code>@Autowired</code>:</p>
+<pre><code class="hljs language-java"><span class="hljs-meta">@RestController</span>
+<span class="hljs-meta">@RequestMapping(&quot;/api/products&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductController</span> {
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> ProductService productService;
+
+    <span class="hljs-comment">// Spring usara este constructor para inyectar las dependencias</span>
+    <span class="hljs-meta">@Autowired</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ProductController</span><span class="hljs-params">(ProductService productService)</span> {
+        <span class="hljs-built_in">this</span>.productService = productService;
+    }
+
+    <span class="hljs-comment">// Constructor auxiliar (por ejemplo, para tests u otro uso)</span>
+    <span class="hljs-keyword">public</span> <span class="hljs-title function_">ProductController</span><span class="hljs-params">()</span> {
+        <span class="hljs-built_in">this</span>.productService = <span class="hljs-literal">null</span>;
+    }
+}
+</code></pre><p>Regla practica: si solo hay un constructor, <code>@Autowired</code> es opcional. Si hay mas de uno, es obligatorio
+marcarlo para evitar ambiguedad.</p>
+<hr>
+<h2>ResponseEntity: devolver respuestas HTTP con control</h2>
+<pre><code class="hljs language-java"><span class="hljs-comment">// 200 OK con cuerpo</span>
+<span class="hljs-keyword">return</span> ResponseEntity.ok(producto);
+
+<span class="hljs-comment">// 201 Created con cuerpo</span>
+<span class="hljs-keyword">return</span> ResponseEntity.status(HttpStatus.CREATED).body(producto);
+
+<span class="hljs-comment">// 404 Not Found sin cuerpo</span>
+<span class="hljs-keyword">return</span> ResponseEntity.notFound().build();
+</code></pre><hr>
+<h2>Estructura de endpoints del modulo Product</h2>
+<table>
+<thead>
+<tr>
+<th>Metodo</th>
+<th>URL</th>
+<th>Descripcion</th>
+<th>Respuesta exitosa</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>GET</td>
+<td>/api/products</td>
+<td>Lista todos los productos</td>
+<td>200 OK</td>
+</tr>
+<tr>
+<td>GET</td>
+<td>/api/products/{id}</td>
+<td>Obtiene un producto por id</td>
+<td>200 OK</td>
+</tr>
+<tr>
+<td>POST</td>
+<td>/api/products</td>
+<td>Crea un nuevo producto</td>
+<td>201 Created</td>
+</tr>
+<tr>
+<td>PATCH</td>
+<td>/api/products/{id}/stock</td>
+<td>Agrega stock al producto existente</td>
+<td>200 OK</td>
+</tr>
+</tbody></table>
+<hr>
+<h2>Ejemplo de request y response</h2>
+<h3>POST /api/products</h3>
+<p>Request body:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Laptop&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Laptop 15 pulgadas&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;price&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1500.00</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;stock&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span>
+<span class="hljs-punctuation">}</span>
+</code></pre><p>Response body (201 Created):</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Laptop&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Laptop 15 pulgadas&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;price&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1500.00</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;stock&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">10</span>
+<span class="hljs-punctuation">}</span>
+</code></pre><h3>PATCH /api/products/1/stock</h3>
+<p>Request body:</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;quantity&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">5</span>
+<span class="hljs-punctuation">}</span>
+</code></pre><p>Response body (200 OK):</p>
+<pre><code class="hljs language-json"><span class="hljs-punctuation">{</span>
+  <span class="hljs-attr">&quot;id&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;name&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Laptop&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;description&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-string">&quot;Laptop 15 pulgadas&quot;</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;price&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">1500.00</span><span class="hljs-punctuation">,</span>
+  <span class="hljs-attr">&quot;stock&quot;</span><span class="hljs-punctuation">:</span> <span class="hljs-number">15</span>
+<span class="hljs-punctuation">}</span>
+</code></pre><hr>
+<h2>Lista en memoria: patron basico para esta clase</h2>
+<pre><code class="hljs language-java"><span class="hljs-meta">@Service</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductService</span> {
+
+    <span class="hljs-keyword">private</span> <span class="hljs-keyword">final</span> List&lt;Product&gt; products = <span class="hljs-keyword">new</span> <span class="hljs-title class_">ArrayList</span>&lt;&gt;();
+    <span class="hljs-keyword">private</span> <span class="hljs-type">Long</span> <span class="hljs-variable">nextId</span> <span class="hljs-operator">=</span> <span class="hljs-number">1L</span>;
+
+    <span class="hljs-keyword">public</span> ProductResponseDto <span class="hljs-title function_">create</span><span class="hljs-params">(ProductRequestDto dto)</span> {
+        <span class="hljs-type">Product</span> <span class="hljs-variable">product</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">Product</span>();
+        product.setId(nextId++);
+        product.setName(dto.getName());
+        <span class="hljs-comment">// ... mapear el resto de campos</span>
+        products.add(product);
+        <span class="hljs-keyword">return</span> toResponseDto(product);
+    }
+
+    <span class="hljs-keyword">private</span> ProductResponseDto <span class="hljs-title function_">toResponseDto</span><span class="hljs-params">(Product product)</span> {
+        <span class="hljs-type">ProductResponseDto</span> <span class="hljs-variable">dto</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ProductResponseDto</span>();
+        dto.setId(product.getId());
+        dto.setName(product.getName());
+        <span class="hljs-comment">// ... mapear el resto de campos</span>
+        <span class="hljs-keyword">return</span> dto;
+    }
+}
+</code></pre><hr>
+<h2>Comandos utiles</h2>
+<pre><code class="hljs language-powershell"><span class="hljs-comment"># Levantar la aplicacion</span>
+.\mvnw spring<span class="hljs-literal">-boot</span>:run
+
+<span class="hljs-comment"># Compilar sin ejecutar</span>
+.\mvnw clean compile
+
+<span class="hljs-comment"># Ejecutar tests</span>
+.\mvnw test
+</code></pre><hr>
+<h2>Errores comunes y solucion rapida</h2>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Causa probable</th>
+<th>Solucion</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>404 al llamar un endpoint</td>
+<td>Ruta mal escrita o falta @RequestMapping en el controller</td>
+<td>Verificar la URL completa y las anotaciones de mapeo</td>
+</tr>
+<tr>
+<td>400 Bad Request al enviar JSON</td>
+<td>Nombre de campo distinto en el DTO o tipo de dato incorrecto</td>
+<td>Comparar los campos del body con los atributos del DTO</td>
+</tr>
+<tr>
+<td>NullPointerException en service</td>
+<td>El service no fue inyectado correctamente</td>
+<td>Verificar que tenga @Service y que se inyecte por constructor</td>
+</tr>
+<tr>
+<td>No se persiste el objeto creado</td>
+<td>Se crea una instancia local en lugar de agregar a la lista</td>
+<td>Asegurarse de hacer products.add(product) en el service</td>
+</tr>
+<tr>
+<td>La app no levanta</td>
+<td>Error de configuracion o dependencia faltante en pom.xml</td>
+<td>Leer el stacktrace desde el primer &quot;Caused by&quot;</td>
+</tr>
+</tbody></table>
+
+</body>
+</html>
