@@ -213,10 +213,31 @@
 </code></pre><h2>Entrega esperada</h2>
 <ul>
 <li>Codigo funcional y compilable.</li>
-<li>Al menos 3 pruebas manuales documentadas:<ul>
-<li>Caso feliz de actualizacion.</li>
+<li>Estructura por capas completa creada desde cero:<ul>
+<li>model/Product</li>
+<li>dto/ProductRequestDto</li>
+<li>dto/ProductResponseDto</li>
+<li>service/ProductService</li>
+<li>controller/ProductController</li>
+</ul>
+</li>
+<li>Endpoints base implementados y probados:<ul>
+<li>GET /api/products</li>
+<li>GET /api/products/{id}</li>
+<li>POST /api/products</li>
+</ul>
+</li>
+<li>Al menos 4 pruebas manuales documentadas para los endpoints base:<ul>
+<li>GET lista (caso feliz).</li>
+<li>GET por id existente (caso feliz).</li>
+<li>GET por id inexistente.</li>
+<li>POST de alta con datos validos.</li>
+</ul>
+</li>
+<li>Si se implemento PATCH /api/products/{id}/stock, agregar al menos 3 pruebas extra:<ul>
+<li>Caso feliz de agregado de stock.</li>
 <li>Id inexistente.</li>
-<li>Stock invalido.</li>
+<li>Quantity invalida (por ejemplo &lt;= 0).</li>
 </ul>
 </li>
 </ul>

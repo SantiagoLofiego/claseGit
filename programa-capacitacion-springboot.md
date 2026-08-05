@@ -303,6 +303,9 @@ Cada clase debe tener su carpeta con material reutilizable:
 - actividad.md: consigna de trabajo en clase.
 - tarea.md: desafio post-clase.
 - cheatsheet.md: referencia rapida para la actividad.
+- plataforma/: carpeta de salida para material publicable en e-learning.
+  - cheatsheet.html: generado desde cheatsheet.md.
+  - tarea.html: generado desde tarea.md.
 
 ## Riesgos frecuentes y mitigaciones
 - Riesgo: demasiado foco en anotaciones sin entender flujo.
@@ -329,3 +332,4 @@ Cada clase debe tener su carpeta con material reutilizable:
 ## Registro de cambios del programa
 - 2026-08-05: Version inicial del programa creada.
 - 2026-08-05: Ajuste con decisiones reales del curso (duracion, Java 21, H2, Git y mini entregables).
+- 2026-08-05: Clase 01 cerrada con materiales completos y exportacion HTML para plataforma.

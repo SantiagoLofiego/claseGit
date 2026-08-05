@@ -71,10 +71,25 @@ stockActual = stockActual + quantity
 
 ## Entrega esperada
 - Codigo funcional y compilable.
-- Al menos 3 pruebas manuales documentadas:
-	- Caso feliz de actualizacion.
+- Estructura por capas completa creada desde cero:
+	- model/Product
+	- dto/ProductRequestDto
+	- dto/ProductResponseDto
+	- service/ProductService
+	- controller/ProductController
+- Endpoints base implementados y probados:
+	- GET /api/products
+	- GET /api/products/{id}
+	- POST /api/products
+- Al menos 4 pruebas manuales documentadas para los endpoints base:
+	- GET lista (caso feliz).
+	- GET por id existente (caso feliz).
+	- GET por id inexistente.
+	- POST de alta con datos validos.
+- Si se implemento PATCH /api/products/{id}/stock, agregar al menos 3 pruebas extra:
+	- Caso feliz de agregado de stock.
 	- Id inexistente.
-	- Stock invalido.
+	- Quantity invalida (por ejemplo <= 0).
 
 ## Opcional (para profundizar)
 - Agregar endpoint de busqueda por nombre: GET /api/products/search?name=...

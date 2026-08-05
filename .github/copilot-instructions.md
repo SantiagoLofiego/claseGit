@@ -60,15 +60,25 @@ Crear y mantener una carpeta por clase con los siguientes archivos:
 - tarea.md
 - cheatsheet.md
 
+Y una subcarpeta adicional para publicacion:
+- plataforma/cheatsheet.html
+- plataforma/tarea.html
+
 Estos materiales deben mantenerse alineados con el estado real del proyecto y con el alcance pedagogico de cada clase.
 
 ## Convenciones de formato para materiales
 - Todo bloque de codigo en Markdown debe declarar lenguaje explicito en el fence (por ejemplo: java, json, powershell, text).
 - Evitar bloques sin lenguaje para que la conversion a HTML conserve resaltado correcto.
 - El material exportado a HTML para la plataforma debe priorizar tema oscuro con buen contraste y syntax highlighting legible.
+- La generacion de HTML debe hacerse desde los .md fuente usando el flujo definido en generar-html.ps1.
 
 ## Definicion de listo por clase
 - Endpoints funcionando.
 - Caso de uso demostrable.
 - Explicacion de por que se implemento asi.
 - Mini desafio para practica autonoma.
+
+## Checklist de cierre de clase
+- Antes de cerrar una clase, verificar que el contenido de programa-capacitacion-springboot.md este actualizado con el alcance real trabajado.
+- Antes de cerrar una clase, verificar que este archivo de instrucciones (copilot-instructions.md) tambien refleje nuevas convenciones o decisiones pedagogicas.
+- Si hubo cambios de enfoque, registrar el ajuste para que las clases siguientes partan de contexto consistente.
