@@ -62,6 +62,11 @@ Crear y mantener una carpeta por clase con los siguientes archivos:
 
 Estos materiales deben mantenerse alineados con el estado real del proyecto y con el alcance pedagogico de cada clase.
 
+## Convenciones de formato para materiales
+- Todo bloque de codigo en Markdown debe declarar lenguaje explicito en el fence (por ejemplo: java, json, powershell, text).
+- Evitar bloques sin lenguaje para que la conversion a HTML conserve resaltado correcto.
+- El material exportado a HTML para la plataforma debe priorizar tema oscuro con buen contraste y syntax highlighting legible.
+
 ## Definicion de listo por clase
 - Endpoints funcionando.
 - Caso de uso demostrable.

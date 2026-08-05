@@ -18,7 +18,14 @@
 	- POST /api/products
 - Si llegas con tiempo, agregar PATCH /api/products/{id}/stock.
   - El producto se identifica por el {id} en la URL (@PathVariable).
-  - El body lleva la cantidad a sumar: { "quantity": 10 } (@RequestBody ProductStockUpdateDto).
+	- El body lleva la cantidad a sumar (@RequestBody ProductStockUpdateDto):
+
+```json
+{
+	"quantity": 10
+}
+```
+
   - El service suma la cantidad al stock existente del producto encontrado.
 - Si el id no existe, devolver una respuesta coherente (manejo basico local, sin ControllerAdvice).
 
@@ -51,7 +58,16 @@
 - Lista en memoria de Product.
 - Generador de ids incremental.
 - Metodos minimos para listar, buscar por id, crear y agregar stock.
-  addStock(Long id, Integer quantity) -> stockActual = stockActual + quantity
+
+```java
+addStock(Long id, Integer quantity)
+```
+
+- Regla de negocio esperada:
+
+```text
+stockActual = stockActual + quantity
+```
 
 ## Entrega esperada
 - Codigo funcional y compilable.

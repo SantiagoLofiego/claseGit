@@ -4,7 +4,7 @@
 
 ## Estructura del proyecto por capas
 
-```
+```text
 src/main/java/com/capacitacion/ecommerce/
 ├── controller/       <- Recibe los requests HTTP y devuelve responses
 │   └── ProductController.java
@@ -206,7 +206,7 @@ public class ProductService {
 
 ## Comandos utiles
 
-```bash
+```powershell
 # Levantar la aplicacion
 .\mvnw spring-boot:run
 
