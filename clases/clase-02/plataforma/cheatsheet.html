@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clase-02 - cheatsheet</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Clase 02 - Cheatsheet</h1>
+<h2>Objetivo del cheatsheet</h2>
+<ul>
+<li>Recordar el patron de validacion para DTOs en Spring Boot.</li>
+<li>Usar el ejemplo de <code>Product</code> como referencia de clase, pero aplicar el mismo criterio a un DTO nuevo en la tarea.</li>
+</ul>
+<h2>1. Dependencia necesaria</h2>
+<pre><code class="hljs language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-validation<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code></pre><h2>2. Ejemplo visto en clase: validacion de Product</h2>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductRequestDto</span> {
+
+    <span class="hljs-meta">@NotBlank(message = &quot;El nombre es obligatorio&quot;)</span>
+    <span class="hljs-meta">@Size(min = 3, message = &quot;El nombre debe tener al menos 3 caracteres&quot;)</span>
+    <span class="hljs-keyword">private</span> String name;
+
+    <span class="hljs-meta">@NotNull(message = &quot;El precio es obligatorio&quot;)</span>
+    <span class="hljs-meta">@Positive(message = &quot;El precio debe ser mayor a cero&quot;)</span>
+    <span class="hljs-keyword">private</span> BigDecimal price;
+
+    <span class="hljs-meta">@NotNull(message = &quot;El stock es obligatorio&quot;)</span>
+    <span class="hljs-meta">@PositiveOrZero(message = &quot;El stock no puede ser negativo&quot;)</span>
+    <span class="hljs-keyword">private</span> Integer stock;
+}
+</code></pre><h2>3. Activar validacion en el controller</h2>
+<pre><code class="hljs language-java"><span class="hljs-meta">@PostMapping</span>
+<span class="hljs-keyword">public</span> ResponseEntity&lt;ProductResponseDto&gt; <span class="hljs-title function_">create</span><span class="hljs-params">(<span class="hljs-meta">@Valid</span> <span class="hljs-meta">@RequestBody</span> ProductRequestDto request)</span> {
+    <span class="hljs-keyword">return</span> ResponseEntity.ok(service.create(request));
+}
+</code></pre><h2>4. Como aplicarlo a un DTO nuevo</h2>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">CustomerRequestDto</span> {
+
+    <span class="hljs-meta">@NotBlank(message = &quot;El nombre es obligatorio&quot;)</span>
+    <span class="hljs-meta">@Size(min = 2, message = &quot;El nombre debe tener al menos 2 caracteres&quot;)</span>
+    <span class="hljs-keyword">private</span> String firstName;
+
+    <span class="hljs-meta">@NotBlank(message = &quot;El email es obligatorio&quot;)</span>
+    <span class="hljs-meta">@Email(message = &quot;Debe ingresar un email valido&quot;)</span>
+    <span class="hljs-keyword">private</span> String email;
+}
+</code></pre><h2>5. Reglas utiles que suelen aparecer</h2>
+<ul>
+<li><code>@NotBlank</code>: texto obligatorio y sin espacios vacios.</li>
+<li><code>@NotNull</code>: campo obligatorio.</li>
+<li><code>@Size(min = ..., max = ...)</code>: longitud minima/maxima.</li>
+<li><code>@Positive</code>: numero mayor a cero.</li>
+<li><code>@PositiveOrZero</code>: numero mayor o igual a cero.</li>
+<li><code>@Email</code>: formato valido de email.</li>
+<li><code>@Pattern</code>: reglas personalizadas con expresiones regulares.</li>
+</ul>
+<h2>6. Documentacion oficial</h2>
+<ul>
+<li>Jakarta Bean Validation API: <a href="https://jakarta.ee/specifications/bean-validation/3.0/apidocs/jakarta/validation/constraints/package-summary">https://jakarta.ee/specifications/bean-validation/3.0/apidocs/jakarta/validation/constraints/package-summary</a></li>
+<li>Esta referencia oficial muestra todas las constraints estandar, su semantica y sus nombres exactos.</li>
+</ul>
+<h2>7. Errores comunes</h2>
+<ul>
+<li>Olvidar agregar la dependencia <code>spring-boot-starter-validation</code>.</li>
+<li>No poner <code>@Valid</code> en <code>@RequestBody</code>.</li>
+<li>Validar en el modelo <code>Product</code> en lugar de en el DTO.</li>
+<li>Repetir exactamente la validacion de Product sin aplicar el criterio a un DTO nuevo.</li>
+</ul>
+<h2>8. Recomendacion didactica</h2>
+<ul>
+<li>El ejemplo de <code>Product</code> es una guia para entender el patron.</li>
+<li>La tarea debe decidir reglas propias para un nuevo DTO del proyecto.</li>
+<li>La idea es reutilizar la herramienta, no copiar la solucion exacta del caso ya visto en clase.</li>
+<li>Cuando tengan dudas sobre una anotacion, consultar primero la documentacion oficial de Jakarta Validation.</li>
+</ul>
+
+</body>
+</html>

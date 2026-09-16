@@ -168,43 +168,7 @@ Mini entregable:
 Ejercicio:
 - Endpoint de listado de ordenes por estado y fecha.
 
-## Clase 7 - Testing profesional
-Objetivo:
-- Asegurar calidad con pruebas automatizadas.
-
-Temas:
-- Unit tests de service (Mockito).
-- Integration tests de controller (MockMvc/TestRestTemplate).
-- Estructura Given-When-Then.
-
-Entrega esperada:
-- Set de tests para modulo Product y Cart.
-
-Mini entregable:
-- Suite base de tests automatizados ejecutable por el equipo.
-
-Ejercicio:
-- Cubrir caso de stock insuficiente con test.
-
-## Clase 8 - Seguridad base
-Objetivo:
-- Introducir autenticacion/autorizacion en API.
-
-Temas:
-- Conceptos de Spring Security.
-- Roles basicos (ADMIN/CUSTOMER).
-- JWT (introduccion practica, alcance controlado).
-
-Entrega esperada:
-- Endpoints protegidos por rol.
-
-Mini entregable:
-- Politica minima de acceso por roles aplicada sobre endpoints criticos.
-
-Ejercicio:
-- Restringir creacion/actualizacion de productos a rol ADMIN.
-
-## Clase 9 - Observabilidad y configuracion por ambientes
+## Clase 7 - Observabilidad y configuracion por ambientes
 Objetivo:
 - Acercarse a estandares operativos de produccion.
 
@@ -223,25 +187,7 @@ Mini entregable:
 Ejercicio:
 - Definir checklist de readiness para deploy.
 
-## Clase 10 - Documentacion y consumo de API
-Objetivo:
-- Facilitar adopcion por otros equipos.
-
-Temas:
-- OpenAPI/Swagger.
-- Convenciones de documentacion.
-- Ejemplos de request/response y errores.
-
-Entrega esperada:
-- Documentacion navegable y actualizada.
-
-Mini entregable:
-- Contrato API documentado y facil de consumir por frontend.
-
-Ejercicio:
-- Documentar endpoints de checkout y pagos simulados.
-
-## Clase 11 - End-to-end de caso de negocio
+## Clase 8 - End-to-end de caso de negocio
 Objetivo:
 - Integrar todo en un flujo completo.
 
@@ -259,7 +205,7 @@ Mini entregable:
 Ejercicio:
 - Agregar estado de orden y auditoria simple.
 
-## Clase 12 - Cierre orientado a consultoria
+## Clase 9 - Cierre orientado a consultoria
 Objetivo:
 - Consolidar buenas practicas de trabajo real.
 
@@ -277,13 +223,67 @@ Mini entregable:
 Ejercicio:
 - Proponer 3 historias nuevas con estimacion inicial.
 
+## Clase 10 - Documentacion y consumo de API (Extension opcional)
+Objetivo:
+- Facilitar adopcion por otros equipos.
+
+Temas:
+- OpenAPI/Swagger.
+- Convenciones de documentacion.
+- Ejemplos de request/response y errores.
+
+Entrega esperada:
+- Documentacion navegable y actualizada.
+
+Mini entregable:
+- Contrato API documentado y facil de consumir por frontend.
+
+Ejercicio:
+- Documentar endpoints de checkout y pagos simulados.
+
+## Clase 11 - Testing profesional (Extension opcional)
+Objetivo:
+- Asegurar calidad con pruebas automatizadas.
+
+Temas:
+- Unit tests de service (Mockito).
+- Integration tests de controller (MockMvc/TestRestTemplate).
+- Estructura Given-When-Then.
+
+Entrega esperada:
+- Set de tests para modulo Product y Cart.
+
+Mini entregable:
+- Suite base de tests automatizados ejecutable por el equipo.
+
+Ejercicio:
+- Cubrir caso de stock insuficiente con test.
+
+## Clase 12 - Seguridad base (Extension opcional)
+Objetivo:
+- Introducir autenticacion/autorizacion en API.
+
+Temas:
+- Conceptos de Spring Security.
+- Roles basicos (ADMIN/CUSTOMER).
+- JWT (introduccion practica, alcance controlado).
+
+Entrega esperada:
+- Endpoints protegidos por rol.
+
+Mini entregable:
+- Politica minima de acceso por roles aplicada sobre endpoints criticos.
+
+Ejercicio:
+- Restringir creacion/actualizacion de productos a rol ADMIN.
+
 ---
 
 ## Hitos pedagogicos por etapa
 - Etapa 1 (Clases 1-2): API basica, contratos y validacion.
 - Etapa 2 (Clases 3-6): Persistencia, relaciones, errores, consultas.
-- Etapa 3 (Clases 7-10): Calidad, seguridad, observabilidad, documentacion.
-- Etapa 4 (Clases 11-12): Integracion completa y forma de trabajo profesional.
+- Etapa 3 (Clases 7-9): Observabilidad, integracion end-to-end y cierre orientado a consultoria.
+- Etapa 4 (Clases 10-12): Extension opcional (documentacion API, testing y seguridad).
 
 ## Criterios de exito
 - Los estudiantes pueden leer y extender una API Spring Boot por capas.
@@ -333,3 +333,4 @@ Cada clase debe tener su carpeta con material reutilizable:
 - 2026-08-05: Version inicial del programa creada.
 - 2026-08-05: Ajuste con decisiones reales del curso (duracion, Java 21, H2, Git y mini entregables).
 - 2026-08-05: Clase 01 cerrada con materiales completos y exportacion HTML para plataforma.
+- 2026-09-03: Reorden de clases para dejar Documentacion API, Testing y Seguridad al final como extension opcional.

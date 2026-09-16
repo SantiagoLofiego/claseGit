@@ -53,6 +53,14 @@ Este repositorio se usa para una capacitacion incremental de Java + Spring Boot 
 - Incluir ejercicios sugeridos al final de cada incremento.
 - Registrar decisiones pedagogicas cuando cambie el alcance.
 
+## Metodologia de trabajo paso a paso (regla futura)
+- Cuando el usuario indique "vamos a empezar con la clase X", primero proponer la actividad de esa clase, alineada al programa y al nivel pedagogico esperado.
+- Una vez validada la actividad, pasar a definir la tarea de la clase.
+- Una vez validada la tarea, construir el cheatsheet en funcion directa de esa tarea, incluyendo solo herramientas, anotaciones y ejemplos que los alumnos realmente necesiten para resolverla.
+- Mantener el orden estricto en cada clase: actividad -> tarea -> cheatsheet -> (opcional) resumen/cierre.
+- Evitar adelantar contenido de etapas futuras o agregar material no acordado en el paso actual.
+- En la clase, se puede mostrar un ejemplo concreto de validacion de `Product` para explicar el patron, pero la tarea debe requerir aplicar ese mismo criterio a un DTO nuevo del proyecto y dejar la resolucion final como ejercicio individual.
+
 ## Estructura de materiales por clase
 Crear y mantener una carpeta por clase con los siguientes archivos:
 - resumen.md
