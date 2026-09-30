@@ -60,6 +60,13 @@ Este repositorio se usa para una capacitacion incremental de Java + Spring Boot 
 - Mantener el orden estricto en cada clase: actividad -> tarea -> cheatsheet -> (opcional) resumen/cierre.
 - Evitar adelantar contenido de etapas futuras o agregar material no acordado en el paso actual.
 - En la clase, se puede mostrar un ejemplo concreto de validacion de `Product` para explicar el patron, pero la tarea debe requerir aplicar ese mismo criterio a un DTO nuevo del proyecto y dejar la resolucion final como ejercicio individual.
+- No crear por adelantado las carpetas/archivos de clases futuras aun no dictadas. Los archivos de cada clase se crean recien al momento de definir su contenido real.
+
+## Regla general del cheatsheet
+- El unico objetivo del cheatsheet es darle al alumno las herramientas necesarias para resolver la tarea de esa clase (dependencias, anotaciones, properties, comandos puntuales, etc.).
+- No incluir secciones meta como "Convencion de formato": esas son reglas de autoria del material, no herramientas que el alumno necesite para resolver el ejercicio.
+- No incluir codigo que resuelva directamente el ejercicio de la tarea; mostrar el patron de forma generica o basada en el ejemplo de clase, dejando la aplicacion al caso puntual de la tarea como trabajo del alumno.
+- El cheatsheet si puede incluir, a modo de ejemplo, el codigo de la actividad realizada en clase (por ejemplo, la entidad `Product` de la clase 03), ya que ese codigo ya fue mostrado y resuelto en el aula. Lo que no debe incluir es la resolucion del entregable de la tarea (por ejemplo, la entidad `Customer`), que queda como trabajo individual del alumno.
 
 ## Estructura de materiales por clase
 Crear y mantener una carpeta por clase con los siguientes archivos:

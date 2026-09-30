@@ -44,15 +44,27 @@ public ResponseEntity<ProductResponseDto> create(@Valid @RequestBody ProductRequ
 ## 4. Como aplicarlo a un DTO nuevo
 
 ```java
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class CustomerRequestDto {
 
     @NotBlank(message = "El nombre es obligatorio")
     @Size(min = 2, message = "El nombre debe tener al menos 2 caracteres")
     private String firstName;
 
+    @NotBlank(message = "El apellido es obligatorio")
+    @Size(min = 2, message = "El apellido debe tener al menos 2 caracteres")
+    private String lastName;
+
     @NotBlank(message = "El email es obligatorio")
     @Email(message = "Debe ingresar un email valido")
     private String email;
+
+    @Pattern(regexp = "^\\d{8,}$", message = "El telefono debe tener al menos 8 digitos")
+    private String phone;
 }
 ```
 

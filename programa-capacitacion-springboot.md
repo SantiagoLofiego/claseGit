@@ -102,7 +102,6 @@ Temas:
 - Entidad, Repository, Service.
 - Configuracion de datasource (H2 primero; plan de migracion a PostgreSQL/SQL Server).
 - Ciclo de vida de entidades.
-- Introduccion a migraciones (opcional: Flyway/Liquibase, al menos concepto).
 
 Entrega esperada:
 - Product persistido en BD.

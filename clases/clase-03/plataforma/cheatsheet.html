@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clase-03 - cheatsheet</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Clase 03 - Cheatsheet</h1>
+<h2>Dependencias necesarias</h2>
+<p>Agregar en el <code>pom.xml</code>:</p>
+<pre><code class="hljs language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.h2database<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>h2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-h2console<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code></pre><table>
+<thead>
+<tr>
+<th>Dependencia</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>spring-boot-starter-data-jpa</code></td>
+<td>Trae JPA/Hibernate y Spring Data (permite extender <code>JpaRepository</code>).</td>
+</tr>
+<tr>
+<td><code>com.h2database:h2</code></td>
+<td>Driver/motor de la base H2 usada en desarrollo.</td>
+</tr>
+<tr>
+<td><code>spring-boot-h2console</code></td>
+<td>Habilita la auto-configuracion de la consola web de H2 (necesaria en Spring Boot 4.x; no alcanza solo con el driver).</td>
+</tr>
+</tbody></table>
+<h2>Anotaciones necesarias para convertir una clase en entidad persistida</h2>
+<table>
+<thead>
+<tr>
+<th>Anotacion</th>
+<th>Donde se coloca</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@Entity</code></td>
+<td>Sobre la clase</td>
+<td>Le dice a Hibernate que esta clase representa una tabla gestionada.</td>
+</tr>
+<tr>
+<td><code>@Table(name = &quot;...&quot;)</code></td>
+<td>Sobre la clase (opcional)</td>
+<td>Define el nombre real de la tabla. Si se omite, Hibernate usa el nombre de la clase.</td>
+</tr>
+<tr>
+<td><code>@Id</code></td>
+<td>Sobre el campo que es clave primaria</td>
+<td>Marca cual campo identifica de forma unica cada fila.</td>
+</tr>
+<tr>
+<td><code>@GeneratedValue(strategy = GenerationType.IDENTITY)</code></td>
+<td>Sobre el campo <code>@Id</code></td>
+<td>Delega en la base de datos la generacion automatica del valor (ver guia de clase para otras estrategias: <code>SEQUENCE</code>, <code>TABLE</code>, <code>AUTO</code>).</td>
+</tr>
+<tr>
+<td><code>@Column(nullable = false)</code></td>
+<td>Sobre un campo</td>
+<td>Marca que ese campo no puede quedar nulo en la tabla.</td>
+</tr>
+<tr>
+<td><code>JpaRepository&lt;Entidad, TipoId&gt;</code></td>
+<td>Interfaz que se extiende (no es una anotacion, pero cumple el mismo rol de &quot;pieza necesaria&quot;)</td>
+<td>Da CRUD basico (<code>save</code>, <code>findAll</code>, <code>findById</code>, <code>delete</code>, etc.) sin necesidad de implementarlo.</td>
+</tr>
+</tbody></table>
+<h3>Ejemplo visto en clase: entidad <code>Product</code></h3>
+<pre><code class="hljs language-java"><span class="hljs-keyword">import</span> java.math.BigDecimal;
+
+<span class="hljs-meta">@Entity</span>
+<span class="hljs-meta">@Table(name = &quot;products&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Product</span> {
+
+    <span class="hljs-meta">@Id</span>
+    <span class="hljs-meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span>
+    <span class="hljs-keyword">private</span> Long id;
+
+    <span class="hljs-meta">@Column(nullable = false)</span>
+    <span class="hljs-keyword">private</span> String name;
+
+    <span class="hljs-meta">@Column(nullable = false)</span>
+    <span class="hljs-keyword">private</span> BigDecimal price;
+
+    <span class="hljs-meta">@Column(nullable = false)</span>
+    <span class="hljs-keyword">private</span> Integer stock;
+
+    <span class="hljs-comment">// getters y setters</span>
+}
+</code></pre><p>Este es el mismo patron que hay que aplicar a la entidad de la tarea: cambian los campos propios de esa entidad, pero las anotaciones y su ubicacion son las mismas.</p>
+<h2>Configuracion de base de datos: para que sirve cada property</h2>
+<p>Estas son las properties ya usadas para <code>Product</code> con H2; el datasource es el mismo para toda la aplicacion, no hace falta duplicarlo para una entidad nueva:</p>
+<pre><code class="hljs language-properties"><span class="hljs-attr">spring.datasource.url</span>=<span class="hljs-string">jdbc:h2:mem:ecommerce</span>
+<span class="hljs-attr">spring.datasource.driverClassName</span>=<span class="hljs-string">org.h2.Driver</span>
+<span class="hljs-attr">spring.datasource.username</span>=<span class="hljs-string">sa</span>
+<span class="hljs-attr">spring.datasource.password</span>=<span class="hljs-string"></span>
+<span class="hljs-attr">spring.jpa.hibernate.ddl-auto</span>=<span class="hljs-string">update</span>
+<span class="hljs-attr">spring.h2.console.enabled</span>=<span class="hljs-string">true</span>
+<span class="hljs-attr">spring.h2.console.path</span>=<span class="hljs-string">/h2-console</span>
+</code></pre><table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>spring.datasource.url</code></td>
+<td>Direccion de conexion a la base: motor, host/puerto (si aplica) y nombre de la base. Con H2 en memoria (<code>jdbc:h2:mem:...</code>) no hay host real, todo vive en el proceso de la aplicacion.</td>
+</tr>
+<tr>
+<td><code>spring.datasource.driverClassName</code></td>
+<td>Clase Java del driver JDBC que sabe &quot;hablar&quot; con ese motor de base especifico. Cada motor tiene el suyo.</td>
+</tr>
+<tr>
+<td><code>spring.datasource.username</code> / <code>spring.datasource.password</code></td>
+<td>Credenciales de conexion. En H2 de desarrollo, <code>sa</code> sin password es el default; en una base real, son credenciales reales y no deberian quedar hardcodeadas en el repositorio.</td>
+</tr>
+<tr>
+<td><code>spring.jpa.hibernate.ddl-auto</code></td>
+<td>Estrategia de Hibernate para el esquema. Ver el detalle de cada valor abajo.</td>
+</tr>
+<tr>
+<td><code>spring.h2.console.enabled</code></td>
+<td>Habilita la consola web de H2 (solo existe para H2, no aplica a otros motores). Requiere ademas la dependencia <code>spring-boot-h2console</code> en Spring Boot 4.x.</td>
+</tr>
+<tr>
+<td><code>spring.h2.console.path</code></td>
+<td>Ruta donde se accede a la consola web (por defecto <code>/h2-console</code>).</td>
+</tr>
+</tbody></table>
+<h4><code>spring.jpa.hibernate.ddl-auto</code>: que hace cada valor</h4>
+<table>
+<thead>
+<tr>
+<th>Valor</th>
+<th>Que hace</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>none</code></td>
+<td>Hibernate no toca el esquema. Hay que crear las tablas por fuera (script manual, Flyway/Liquibase, etc.).</td>
+</tr>
+<tr>
+<td><code>validate</code></td>
+<td>Hibernate compara las entidades contra las tablas existentes y falla si no coinciden. No crea ni modifica nada.</td>
+</tr>
+<tr>
+<td><code>update</code></td>
+<td>Hibernate crea las tablas si no existen y agrega columnas/cambios que detecte. Es el valor comodo para desarrollo con H2, usado en clase.</td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td>Hibernate borra y vuelve a crear el esquema completo cada vez que arranca la aplicacion. Se pierden los datos en cada reinicio.</td>
+</tr>
+<tr>
+<td><code>create-drop</code></td>
+<td>Igual que <code>create</code>, pero ademas borra el esquema al cerrar la aplicacion. Util solo para tests.</td>
+</tr>
+</tbody></table>
+<p>Importante: <code>update</code>/<code>create</code>/<code>create-drop</code> son comodos para aprender y para H2, pero no se recomiendan en una base de datos real/productiva (riesgo de perder o corromper datos). Ahi conviene <code>validate</code>/<code>none</code> combinado con una herramienta de migracion (Flyway/Liquibase).</p>
+<h3>Las mismas properties, usando PostgreSQL en vez de H2</h3>
+<pre><code class="hljs language-properties"><span class="hljs-attr">spring.datasource.url</span>=<span class="hljs-string">jdbc:postgresql://localhost:5432/ecommerce</span>
+<span class="hljs-attr">spring.datasource.driverClassName</span>=<span class="hljs-string">org.postgresql.Driver</span>
+<span class="hljs-attr">spring.datasource.username</span>=<span class="hljs-string">postgres</span>
+<span class="hljs-attr">spring.datasource.password</span>=<span class="hljs-string">tu_password</span>
+<span class="hljs-attr">spring.jpa.hibernate.ddl-auto</span>=<span class="hljs-string">validate</span>
+</code></pre><p>Cambios clave respecto a H2:</p>
+<ul>
+<li>La URL ahora apunta a un servidor real (<code>host:puerto/nombre_base</code>), no a una base en memoria.</li>
+<li>El driver cambia a <code>org.postgresql.Driver</code> (requiere la dependencia <code>org.postgresql:postgresql</code> en vez de <code>com.h2database:h2</code>).</li>
+<li>Las credenciales son reales, no <code>sa</code>/vacio.</li>
+<li><code>ddl-auto</code> pasa a <code>validate</code> (o <code>none</code>): en una base persistente no conviene que Hibernate modifique el esquema automaticamente en cada arranque.</li>
+<li>Las properties <code>spring.h2.console.*</code> se eliminan directamente: no tienen sentido fuera de H2.</li>
+</ul>
+<h3>Las mismas properties, usando SQL Server en vez de H2</h3>
+<pre><code class="hljs language-properties"><span class="hljs-attr">spring.datasource.url</span>=<span class="hljs-string">jdbc:sqlserver://localhost:1433;databaseName=ecommerce;encrypt=true;trustServerCertificate=true</span>
+<span class="hljs-attr">spring.datasource.driverClassName</span>=<span class="hljs-string">com.microsoft.sqlserver.jdbc.SQLServerDriver</span>
+<span class="hljs-attr">spring.datasource.username</span>=<span class="hljs-string">sa</span>
+<span class="hljs-attr">spring.datasource.password</span>=<span class="hljs-string">tu_password</span>
+<span class="hljs-attr">spring.jpa.hibernate.ddl-auto</span>=<span class="hljs-string">validate</span>
+</code></pre><p>Cambios clave respecto a H2:</p>
+<ul>
+<li>La URL usa el formato propio de SQL Server (<code>jdbc:sqlserver://host:puerto;databaseName=...</code>), con parametros adicionales de conexion (<code>encrypt</code>, <code>trustServerCertificate</code>) segun como este configurado el servidor.</li>
+<li>El driver cambia a <code>com.microsoft.sqlserver.jdbc.SQLServerDriver</code> (requiere la dependencia <code>com.microsoft.sqlserver:mssql-jdbc</code>).</li>
+<li>Aunque el usuario tambien se llame <code>sa</code> en SQL Server (es una coincidencia de nombre con el usuario por defecto de H2), la contrasena es real y propia del servidor configurado.</li>
+<li><code>ddl-auto</code> en <code>validate</code>/<code>none</code> por la misma razon que en PostgreSQL.</li>
+<li>Tampoco aplican las properties de consola H2.</li>
+</ul>
+<h3>Nota: no hace falta declarar el dialecto a mano</h3>
+<p>En versiones actuales de Spring Boot no es necesario setear <code>spring.jpa.database-platform</code> (por ejemplo <code>org.hibernate.dialect.PostgreSQLDialect</code>): Hibernate detecta el dialecto automaticamente a partir del driver/URL configurados. Alcanza con cambiar <code>url</code>, <code>driverClassName</code> y las credenciales.</p>
+<h2>Script de datos de ejemplo: donde y como debe llamarse</h2>
+<ul>
+<li><strong>Ubicacion</strong>: <code>src/main/resources/data.sql</code> (raiz del classpath).</li>
+<li><strong>Nombre obligatorio</strong>: tiene que llamarse exactamente <code>data.sql</code> (o <code>data-${platform}.sql</code> para variantes por motor). Cualquier otro nombre no se ejecuta automaticamente, salvo que se declare con <code>spring.sql.init.data-locations</code>.</li>
+<li><strong>Formato esperado</strong>: sentencias <code>INSERT INTO &lt;tabla&gt; (&lt;columnas&gt;) VALUES (...);</code> usando el nombre real de la tabla (el definido en <code>@Table</code>, no el nombre de la clase Java).</li>
+<li><strong>Property adicional si el esquema lo genera Hibernate</strong>: agregar <code>spring.jpa.defer-datasource-initialization=true</code>, sino falla con un error del estilo <code>Table &quot;X&quot; not found</code> porque el script intenta correr antes de que Hibernate cree las tablas.</li>
+</ul>
+<h2>Errores comunes y solucion rapida</h2>
+<table>
+<thead>
+<tr>
+<th>Error</th>
+<th>Solucion rapida</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>Table &quot;X&quot; not found</code> al arrancar con <code>data.sql</code></td>
+<td>Agregar <code>spring.jpa.defer-datasource-initialization=true</code>.</td>
+</tr>
+<tr>
+<td>La consola H2 no carga en <code>/h2-console</code></td>
+<td>Verificar que este la dependencia <code>org.springframework.boot:spring-boot-h2console</code> (no alcanza solo con <code>com.h2database:h2</code>).</td>
+</tr>
+<tr>
+<td>La entidad no se persiste</td>
+<td>Revisar que tenga <code>@Entity</code>, <code>@Id</code> y <code>@GeneratedValue</code>, y que el service use el repository y no una lista en memoria.</td>
+</tr>
+<tr>
+<td>Cambios de esquema inesperados en una base real</td>
+<td>No usar <code>ddl-auto=update</code> fuera de desarrollo; pasar a <code>validate</code>/<code>none</code> + una herramienta de migracion (Flyway/Liquibase).</td>
+</tr>
+<tr>
+<td>Error de conexion al migrar de H2 a PostgreSQL/SQL Server</td>
+<td>Revisar que se haya cambiado <code>url</code>, <code>driverClassName</code> y credenciales, y que la dependencia del driver correspondiente este en el <code>pom.xml</code>.</td>
+</tr>
+</tbody></table>
+
+</body>
+</html>

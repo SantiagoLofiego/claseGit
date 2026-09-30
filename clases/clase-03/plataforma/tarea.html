@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clase-03 - tarea</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Clase 03 - Tarea</h1>
+<h2>Objetivo</h2>
+<ul>
+<li>Aplicar el patron de persistencia con JPA/Hibernate visto en clase (Entity + Repository + Service) a una entidad nueva del proyecto.</li>
+<li>Practicar la migracion de un modelo que hoy vive en memoria hacia una entidad gestionada por Spring Data JPA.</li>
+<li>Reforzar la separacion entre DTO (clase 02) y entidad de persistencia (clase 03), sin mezclarlas.</li>
+</ul>
+<h2>Enunciado</h2>
+<ul>
+<li>En la clase 02 se creo <code>CustomerRequestDto</code> para validar el alta de un cliente, pero <code>Customer</code> todavia vivia en memoria.</li>
+<li>Ahora, siguiendo el mismo patron trabajado en clase con <code>Product</code>, convertir <code>Customer</code> en una entidad persistida con JPA.</li>
+<li>Crear <code>Customer</code> como entidad JPA con:<ul>
+<li><code>@Entity</code></li>
+<li><code>@Table(name = &quot;customers&quot;)</code></li>
+<li><code>@Id</code> + <code>@GeneratedValue(strategy = GenerationType.IDENTITY)</code></li>
+<li>Columnas para <code>firstName</code>, <code>lastName</code>, <code>email</code> y <code>phone</code> (<code>@Column(nullable = false)</code> donde corresponda segun las validaciones ya definidas en <code>CustomerRequestDto</code>).</li>
+</ul>
+</li>
+<li>Crear <code>CustomerRepository extends JpaRepository&lt;Customer, Long&gt;</code>.</li>
+<li>Ajustar <code>CustomerService</code> para que use <code>CustomerRepository</code> en lugar de la lista en memoria, manteniendo los metodos ya definidos (listar, buscar por id, crear).</li>
+<li>Las validaciones del DTO (<code>CustomerRequestDto</code>) no cambian: siguen resolviendo la calidad del dato de entrada, independientemente de que ahora se persista.</li>
+<li>Usar la misma configuracion de H2 ya definida para <code>Product</code> (no hace falta un datasource nuevo).</li>
+</ul>
+<h2>Entrega esperada</h2>
+<ul>
+<li>Codigo funcional y compilable.</li>
+<li>Endpoints funcionando sobre datos reales (persistidos en H2):<ul>
+<li><code>GET /api/customers</code></li>
+<li><code>GET /api/customers/{id}</code></li>
+<li><code>POST /api/customers</code></li>
+</ul>
+</li>
+<li>Verificar en la consola H2 (<code>/h2-console</code>) que la tabla <code>customers</code> existe y que los clientes creados por <code>POST</code> se reflejan ahi.</li>
+<li>Probar al menos un caso feliz de alta y consulta de un cliente.</li>
+</ul>
+<h2>Opcional (para profundizar)</h2>
+<ul>
+<li>Agregar clientes de ejemplo en <code>data.sql</code> (recordando que, si el esquema lo genera Hibernate, hace falta <code>spring.jpa.defer-datasource-initialization=true</code> para que <code>data.sql</code> no falle).</li>
+<li>Pensar (sin necesidad de implementarlo todavia): ¿por que podria convenir marcar <code>email</code> como unico a nivel de base de datos (<code>@Column(unique = true)</code>)? ¿Que pasaria hoy si se cargan dos clientes con el mismo email?</li>
+</ul>
+
+</body>
+</html>
