@@ -149,14 +149,35 @@ Mini entregable:
 Ejercicio:
 - Agregar reglas de negocio con excepciones claras (stock insuficiente, por ejemplo).
 
-## Clase 6 - Consultas, filtros y paginacion
+## Clase 6 - Consultas con query methods y JPQL
 Objetivo:
-- Exponer endpoints escalables para listados.
+- Aprender a consultar entidades desde Spring Data y JPQL sin caer en SQL acoplado al motor.
 
 Temas:
-- Paginacion y sorting con Spring Data.
-- Filtros simples por query params.
-- Criterios de busqueda y performance basica.
+- Query methods: findBy..., ExistsBy..., And/Or, ordenamiento.
+- JPQL: @Query y consultas con SELECT sobre entidades.
+- Diferencia entre query methods, JPQL y SQL nativo.
+- Criterios de consulta y comprension del modelo JPA.
+
+Entrega esperada:
+- Repositorios con consultas personalizadas para Product y Cart.
+- Endpoints de busqueda simples basados en nombre, estado o referencia.
+
+Mini entregable:
+- Consulta funcional con query method o JPQL sobre un caso real del dominio.
+
+Ejercicio:
+- Buscar productos por nombre o categoria y ordenar resultados por precio.
+
+## Clase 7 - Paginacion, sorting y filtros avanzados
+Objetivo:
+- Exponer listados escalables y reutilizables para APIs reales.
+
+Temas:
+- Paginacion con Pageable, PageRequest y Page.
+- Sorting por columnas y campos relacionados.
+- Filtros por query params combinados.
+- Performance y decisiones de negocio en listados grandes.
 
 Entrega esperada:
 - GET /api/products con paginacion, orden y filtro por nombre/categoria.
@@ -165,9 +186,9 @@ Mini entregable:
 - Endpoint de listado escalable listo para crecer en volumen.
 
 Ejercicio:
-- Endpoint de listado de ordenes por estado y fecha.
+- Endpoint de listado de ordenes por estado y fecha, con paginacion y orden por fecha descendente.
 
-## Clase 7 - Observabilidad y configuracion por ambientes
+## Clase 8 - Observabilidad y configuracion por ambientes
 Objetivo:
 - Acercarse a estandares operativos de produccion.
 
@@ -186,7 +207,7 @@ Mini entregable:
 Ejercicio:
 - Definir checklist de readiness para deploy.
 
-## Clase 8 - End-to-end de caso de negocio
+## Clase 9 - End-to-end de caso de negocio
 Objetivo:
 - Integrar todo en un flujo completo.
 
@@ -204,7 +225,7 @@ Mini entregable:
 Ejercicio:
 - Agregar estado de orden y auditoria simple.
 
-## Clase 9 - Cierre orientado a consultoria
+## Clase 10 - Cierre orientado a consultoria
 Objetivo:
 - Consolidar buenas practicas de trabajo real.
 
@@ -222,7 +243,7 @@ Mini entregable:
 Ejercicio:
 - Proponer 3 historias nuevas con estimacion inicial.
 
-## Clase 10 - Documentacion y consumo de API (Extension opcional)
+## Clase 11 - Documentacion y consumo de API (Extension opcional)
 Objetivo:
 - Facilitar adopcion por otros equipos.
 
@@ -240,7 +261,7 @@ Mini entregable:
 Ejercicio:
 - Documentar endpoints de checkout y pagos simulados.
 
-## Clase 11 - Testing profesional (Extension opcional)
+## Clase 12 - Testing profesional (Extension opcional)
 Objetivo:
 - Asegurar calidad con pruebas automatizadas.
 
@@ -258,7 +279,7 @@ Mini entregable:
 Ejercicio:
 - Cubrir caso de stock insuficiente con test.
 
-## Clase 12 - Seguridad base (Extension opcional)
+## Clase 13 - Seguridad base (Extension opcional)
 Objetivo:
 - Introducir autenticacion/autorizacion en API.
 
@@ -280,9 +301,10 @@ Ejercicio:
 
 ## Hitos pedagogicos por etapa
 - Etapa 1 (Clases 1-2): API basica, contratos y validacion.
-- Etapa 2 (Clases 3-6): Persistencia, relaciones, errores, consultas.
-- Etapa 3 (Clases 7-9): Observabilidad, integracion end-to-end y cierre orientado a consultoria.
-- Etapa 4 (Clases 10-12): Extension opcional (documentacion API, testing y seguridad).
+- Etapa 2 (Clases 3-5): Persistencia, relaciones y manejo de errores.
+- Etapa 3 (Clases 6-8): Consultas avanzadas, paginacion y observabilidad.
+- Etapa 4 (Clases 9-10): Integracion end-to-end y cierre orientado a consultoria.
+- Etapa 5 (Clases 11-13): Extension opcional (documentacion API, testing y seguridad).
 
 ## Criterios de exito
 - Los estudiantes pueden leer y extender una API Spring Boot por capas.
