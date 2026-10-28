@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clase-04 - cheatsheet</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Clase 04 - Cheatsheet</h1>
+<h2>Anotaciones de relacion: cuando usar cada una</h2>
+<table>
+<thead>
+<tr>
+<th>Anotacion</th>
+<th>Cardinalidad</th>
+<th>Fetch por defecto</th>
+<th>Quien suele ser el dueno</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@OneToMany</code></td>
+<td>&quot;Uno&quot; visto desde el lado que tiene la coleccion</td>
+<td><code>LAZY</code></td>
+<td>No es el dueno (se usa <code>mappedBy</code>)</td>
+</tr>
+<tr>
+<td><code>@ManyToOne</code></td>
+<td>&quot;Muchos&quot; visto desde el lado que tiene la FK</td>
+<td><code>EAGER</code></td>
+<td>Si (tiene el <code>@JoinColumn</code>)</td>
+</tr>
+<tr>
+<td><code>@OneToOne</code></td>
+<td>Uno a uno</td>
+<td><code>EAGER</code></td>
+<td>El lado que declara <code>@JoinColumn</code> (con <code>unique = true</code>)</td>
+</tr>
+<tr>
+<td><code>@ManyToMany</code></td>
+<td>Muchos a muchos</td>
+<td><code>LAZY</code></td>
+<td>No se usa en este curso (ver nota abajo)</td>
+</tr>
+</tbody></table>
+<blockquote>
+<p>Nota: en este curso evitamos <code>@ManyToMany</code> directo y preferimos una entidad intermedia explicita (como <code>CartItem</code>), para poder agregarle atributos propios a la relacion (<code>quantity</code>, por ejemplo).</p>
+</blockquote>
+<h2>Opciones de <code>@OneToMany</code></h2>
+<table>
+<thead>
+<tr>
+<th>Opcion</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>mappedBy = &quot;campo&quot;</code></td>
+<td>Indica que este lado NO es el dueno: la relacion ya esta gestionada por el campo indicado del otro lado (ese campo tiene el <code>@JoinColumn</code>). No genera ninguna columna ni tabla propia.</td>
+</tr>
+<tr>
+<td><code>cascade = CascadeType.X</code></td>
+<td>Propaga operaciones del ciclo de vida (ver tabla de <code>CascadeType</code> mas abajo) desde esta entidad hacia las entidades relacionadas.</td>
+</tr>
+<tr>
+<td><code>orphanRemoval = true/false</code></td>
+<td>Si un elemento se saca de la coleccion, se borra de la base de datos (no queda &quot;huerfano&quot; sin padre).</td>
+</tr>
+<tr>
+<td><code>fetch = FetchType.X</code></td>
+<td>Redundante en <code>@OneToMany</code> salvo que se quiera dejarlo explicito: el default ya es <code>LAZY</code>.</td>
+</tr>
+</tbody></table>
+<h2>Opciones de <code>@ManyToOne</code> / <code>@OneToOne</code></h2>
+<table>
+<thead>
+<tr>
+<th>Opcion</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>fetch = FetchType.LAZY</code></td>
+<td>Fuerza carga diferida; se recomienda siempre, porque el default de estas dos anotaciones es <code>EAGER</code>.</td>
+</tr>
+<tr>
+<td><code>optional = true/false</code></td>
+<td>Indica si la relacion puede ser nula (<code>true</code> por defecto). Alternativa/complemento a <code>nullable</code> en <code>@JoinColumn</code>.</td>
+</tr>
+</tbody></table>
+<h2>Opciones de <code>@JoinColumn</code></h2>
+<table>
+<thead>
+<tr>
+<th>Opcion</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>name = &quot;columna&quot;</code></td>
+<td>Nombre de la columna FK fisica en la tabla de este lado.</td>
+</tr>
+<tr>
+<td><code>nullable = true/false</code></td>
+<td>Si la columna admite nulos. En relaciones obligatorias (como <code>CartItem -&gt; Cart</code>) se usa <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>unique = true/false</code></td>
+<td>Agrega una constraint de unicidad sobre la columna FK. Es la opcion clave que distingue un <code>@OneToOne</code> real de un <code>@ManyToOne</code> (sin <code>unique = true</code>, varias filas podrian compartir la misma FK).</td>
+</tr>
+</tbody></table>
+<h2><code>CascadeType</code>: valores disponibles</h2>
+<table>
+<thead>
+<tr>
+<th>Valor</th>
+<th>Que propaga</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>PERSIST</code></td>
+<td>Al guardar la entidad padre, tambien guarda las entidades relacionadas nuevas.</td>
+</tr>
+<tr>
+<td><code>MERGE</code></td>
+<td>Al actualizar la entidad padre, tambien actualiza las entidades relacionadas.</td>
+</tr>
+<tr>
+<td><code>REMOVE</code></td>
+<td>Al borrar la entidad padre, tambien borra las entidades relacionadas.</td>
+</tr>
+<tr>
+<td><code>REFRESH</code></td>
+<td>Al refrescar la entidad padre desde la base, tambien refresca las relacionadas.</td>
+</tr>
+<tr>
+<td><code>DETACH</code></td>
+<td>Al desvincular la entidad padre del contexto de persistencia, tambien desvincula las relacionadas.</td>
+</tr>
+<tr>
+<td><code>ALL</code></td>
+<td>Aplica los cinco anteriores. Es la que usamos en <code>Cart.items</code>.</td>
+</tr>
+</tbody></table>
+<h2><code>FetchType</code>: valores disponibles</h2>
+<table>
+<thead>
+<tr>
+<th>Valor</th>
+<th>Comportamiento</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>LAZY</code></td>
+<td>Hibernate no trae la entidad/coleccion relacionada hasta que se accede explicitamente a ella (usa un proxy).</td>
+</tr>
+<tr>
+<td><code>EAGER</code></td>
+<td>Hibernate trae la entidad/coleccion relacionada inmediatamente, en la misma consulta o en una adicional automatica.</td>
+</tr>
+</tbody></table>
+<h2>Patron ya resuelto en clase: metodo helper para relaciones bidireccionales</h2>
+<p>Cuando la relacion es bidireccional (como <code>Cart</code> &lt;-&gt; <code>CartItem</code>), hay que sincronizar ambos lados manualmente. El patron general (ya aplicado a <code>Cart</code> en la actividad) es:</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">void</span> <span class="hljs-title function_">addItem</span><span class="hljs-params">(CartItem item)</span> {
+    items.add(item);      <span class="hljs-comment">// lado de navegacion (coleccion, mappedBy)</span>
+    item.setCart(<span class="hljs-built_in">this</span>);   <span class="hljs-comment">// lado dueno (el que realmente define la FK en la base)</span>
+}
+</code></pre><p>Usar siempre este tipo de metodo al agregar un elemento a una coleccion <code>@OneToMany</code>, en vez de manipular la lista directamente con <code>getItems().add(...)</code>.</p>
+<h2>Bean Validation (repaso de clase 02) para el DTO de entrada</h2>
+<table>
+<thead>
+<tr>
+<th>Anotacion</th>
+<th>Para que sirve</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>@NotNull</code></td>
+<td>El campo no puede ser nulo. Util para <code>productId</code>.</td>
+</tr>
+<tr>
+<td><code>@Positive</code> / <code>@Min(1)</code></td>
+<td>El valor numerico debe ser mayor a cero. Util para <code>quantity</code>.</td>
+</tr>
+<tr>
+<td><code>@Valid</code></td>
+<td>Se coloca en el parametro del controller para que Spring dispare las validaciones del DTO antes de llegar al service.</td>
+</tr>
+</tbody></table>
+<h2>Repositorios disponibles (de la actividad, no hay que crear nada nuevo)</h2>
+<ul>
+<li><code>CartRepository extends JpaRepository&lt;Cart, Long&gt;</code> -&gt; <code>findById(Long id)</code>.</li>
+<li><code>ProductRepository</code> (ya existente desde la clase 03) -&gt; <code>findById(Long id)</code>.</li>
+</ul>
+<p>No hace falta crear un <code>CartItemRepository</code>: el guardado de <code>CartItem</code> se resuelve siempre a traves de <code>cartRepository.save(cart)</code>, gracias al <code>cascade = CascadeType.ALL</code> ya configurado en <code>Cart.items</code>.</p>
+
+</body>
+</html>

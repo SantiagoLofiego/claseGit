@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clase-04 - tarea</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Clase 04 - Tarea</h1>
+<h2>Objetivo</h2>
+<ul>
+<li>Aplicar el patron de relacion bidireccional visto en clase (<code>Cart.addItem()</code> + <code>@OneToMany</code>/<code>@ManyToOne</code>) a un caso de uso nuevo: agregar un producto existente a un carrito existente.</li>
+<li>Practicar la decision de que informacion va en el DTO de entrada y que informacion se resuelve en el service contra entidades ya persistidas (<code>Cart</code>, <code>Product</code>).</li>
+<li>Reforzar que agregar un item a la relacion bidireccional implica pasar siempre por el metodo <code>addItem()</code> de <code>Cart</code>, no manipular la lista <code>items</code> directamente.</li>
+</ul>
+<h2>Enunciado</h2>
+<ul>
+<li>En la actividad se creo un carrito vacio (<code>POST /api/carts</code>) y se pudo consultar (<code>GET /api/carts/{id}</code>), pero todavia no hay forma de agregarle productos.</li>
+<li>Crear el endpoint <code>POST /api/carts/{cartId}/items</code> que reciba un DTO de entrada <code>AddCartItemRequestDto</code> con:<ul>
+<li><code>productId</code> (<code>Long</code>, obligatorio).</li>
+<li><code>quantity</code> (<code>Integer</code>, obligatorio, debe ser mayor a cero - reutilizar <code>@Valid</code> y Bean Validation de la clase 02).</li>
+</ul>
+</li>
+<li>En <code>CartService</code>, agregar un metodo que:<ol>
+<li>Busque el <code>Cart</code> por <code>cartId</code> (si no existe, devolver 404 simple, sin <code>@ControllerAdvice</code> todavia - eso es clase 05).</li>
+<li>Busque el <code>Product</code> por <code>productId</code> (si no existe, devolver 404 simple).</li>
+<li>Cree un <code>CartItem</code> con la <code>quantity</code> recibida y lo asocie usando <code>cart.addItem(item)</code> (el mismo metodo helper visto en clase, para mantener sincronizados ambos lados de la relacion).</li>
+<li>Guarde el carrito con <code>cartRepository.save(cart)</code> (aprovechando el <code>cascade = CascadeType.ALL</code> ya configurado: no hace falta guardar el <code>CartItem</code> por separado).</li>
+</ol>
+</li>
+<li>Devolver el <code>CartResponseDto</code> actualizado, mostrando el nuevo item en la lista <code>items</code>.</li>
+</ul>
+<h2>Entrega esperada</h2>
+<ul>
+<li>Codigo funcional y compilable.</li>
+<li><code>POST /api/carts/{cartId}/items</code> funcionando sobre datos reales en H2.</li>
+<li>Caso feliz probado: crear un carrito, agregar un producto existente, consultar el carrito (<code>GET /api/carts/{id}</code>) y ver el item reflejado con los datos del producto y la cantidad cargada.</li>
+<li>Caso de error simple probado: intentar agregar un <code>productId</code> inexistente (respuesta 404, sin necesidad de formato de error elaborado todavia).</li>
+</ul>
+<h2>Opcional (para profundizar)</h2>
+<ul>
+<li>Pensar (sin necesidad de implementarlo todavia): si se agrega dos veces el mismo producto al mismo carrito, ¿conviene sumar la cantidad al <code>CartItem</code> existente o crear una fila nueva? ¿Como se podria aprovechar <code>cart.getItems()</code> (ya cargado por ser una relacion bidireccional) para resolver esta pregunta sin agregar un repository nuevo?</li>
+</ul>
+
+</body>
+</html>

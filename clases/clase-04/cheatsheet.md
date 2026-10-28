@@ -1,7 +1,5 @@
 # Clase 04 - Cheatsheet
 
-## Objetivo del cheatsheet
-- Servir de ayuda memoria con las anotaciones, opciones y tipos usados en relaciones JPA, para resolver la tarea (endpoint para agregar un producto al carrito) sin tener que resolver el endpoint por los alumnos.
 
 ## Anotaciones de relacion: cuando usar cada una
 

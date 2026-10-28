@@ -1,9 +1,5 @@
 ﻿# Clase 02 - Cheatsheet
 
-## Objetivo del cheatsheet
-- Recordar el patron de validacion para DTOs en Spring Boot.
-- Usar el ejemplo de `Product` como referencia de clase, pero aplicar el mismo criterio a un DTO nuevo en la tarea.
-
 ## 1. Dependencia necesaria
 
 ```xml

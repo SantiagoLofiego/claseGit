@@ -213,6 +213,36 @@ private Address address;
 - Es **unidireccional** (igual que `CartItem -> Product`): `Address` no tiene ningun campo que apunte de vuelta a `Customer`. Si se necesitara navegar `address.getCustomer()`, se agregaria `mappedBy` del lado `Address`, con el mismo criterio ya visto en `Cart`/`CartItem`.
 - Recordatorio de la clase anterior: si el proyecto usa `ddl-auto=none`, `unique = true` no genera ninguna constraint fisica real; solo documenta la intencion en el codigo. Para que la unicidad se cumpla de verdad en ese caso, hay que agregarla en el script de esquema (`ALTER TABLE customers ADD CONSTRAINT uq_customer_address UNIQUE (address_id);`).
 
+### Cuidado: sin `cascade`, guardar el `Customer` no guarda el `Address` nuevo
+Por defecto, **todas** las anotaciones de relacion de JPA (`@OneToOne`, `@ManyToOne`, `@OneToMany`, `@ManyToMany`) tienen `cascade = {}` (sin cascada), salvo que se declare explicitamente. El ejemplo de arriba no tiene `cascade`, entonces:
+
+```java
+Customer customer = new Customer();
+Address address = new Address(/* ... */); // todavia sin persistir, sin id
+customer.setAddress(address);
+
+customerRepository.save(customer); // esto falla
+```
+
+Esto lanza una excepcion (`TransientPropertyValueException`: "object references an unsaved transient instance"), porque Hibernate detecta que `customer.address` apunta a un `Address` que todavia no tiene identidad persistida, y sin cascada no lo guarda por vos.
+
+Hay dos formas de resolverlo:
+
+- **Guardar el `Address` primero, de forma explicita** (sin tocar la anotacion):
+  ```java
+  Address savedAddress = addressRepository.save(address);
+  customer.setAddress(savedAddress);
+  customerRepository.save(customer);
+  ```
+- **Agregar cascada en la anotacion**, para que alcance un solo `save()`:
+  ```java
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+  @JoinColumn(name = "address_id", unique = true)
+  private Address address;
+  ```
+
+Como en esta clase el `OneToOne` queda como demo breve (solo para ver la columna `address_id` en `customers`, sin endpoint), no hace falta decidir esto ahora: alcanza con dejar clara la regla general de que la cascada nunca es automatica, hay que pedirla explicitamente.
+
 ### Mensaje clave para explicar en clase
 > "De los tres tipos de relacion que vemos hoy, `@OneToOne` es el mas facil de razonar: es basicamente un `@ManyToOne` al que le agregamos `unique = true` para que la cardinalidad sea realmente 1 a 1."
 

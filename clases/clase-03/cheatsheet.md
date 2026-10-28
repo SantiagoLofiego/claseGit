@@ -1,8 +1,5 @@
 ﻿# Clase 03 - Cheatsheet
 
-## Objetivo del cheatsheet
-- Servir de ayuda memoria con las herramientas necesarias para resolver la tarea (dependencias, anotaciones, properties y el script de datos), sin resolver `Customer` por los alumnos.
-
 ## Dependencias necesarias
 
 Agregar en el `pom.xml`:
