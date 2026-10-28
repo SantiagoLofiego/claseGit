@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clase-05 - tarea</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Clase 05 - Tarea</h1>
+<h2>Objetivo</h2>
+<ul>
+<li>Consolidar el manejo global de errores en una API REST Spring Boot.</li>
+<li>Aplicar el patron visto en clase sobre endpoints reales del proyecto.</li>
+<li>Reforzar la separacion por capas y la utilidad de <code>@Valid</code>, <code>@ExceptionHandler</code> y <code>@RestControllerAdvice</code>.</li>
+<li>Dejar un contrato de error uniforme para toda la API.</li>
+</ul>
+<h2>Enunciado</h2>
+<p>La clase mostro el ejemplo base sobre un endpoint concreto: <code>GET /api/products/{id}</code> cuando un producto no existe. Ahora tenes que aplicar el mismo patron al resto de la API para que todos los endpoints respondan con errores consistentes.</p>
+<h3>Requisitos</h3>
+<ol>
+<li>Crear la clase <code>ApiErrorResponse</code> para serializar errores en JSON.</li>
+<li>Crear la excepcion <code>ResourceNotFoundException</code> para recursos inexistentes.</li>
+<li>Crear la excepcion <code>ConflictException</code> para reglas de negocio conflictivas.</li>
+<li>Crear la clase <code>GlobalExceptionHandler</code> anotada con <code>@RestControllerAdvice</code>.</li>
+<li>Definir handlers con <code>@ExceptionHandler</code> para:<ul>
+<li><code>ResourceNotFoundException</code></li>
+<li><code>ConflictException</code></li>
+<li><code>MethodArgumentNotValidException</code></li>
+<li><code>Exception</code></li>
+</ul>
+</li>
+<li>Asegurarte de que los endpoints del proyecto usen las anotaciones adecuadas:<ul>
+<li><code>@RestController</code> en el controller</li>
+<li><code>@RequestMapping(&quot;/api&quot;)</code> o prefijo equivalente</li>
+<li><code>@GetMapping</code>, <code>@PostMapping</code>, <code>@PathVariable</code>, <code>@RequestBody</code></li>
+<li><code>@Valid</code> en los DTOs de request</li>
+<li><code>@NotBlank</code>, <code>@NotNull</code>, <code>@Positive</code>, <code>@Min</code> en los DTOs cuando aplique</li>
+</ul>
+</li>
+<li>En los servicios, lanzar excepciones de negocio claras cuando haya un problema real, por ejemplo:<ul>
+<li>producto inexistente</li>
+<li>carrito inexistente</li>
+<li>cantidad menor o igual a cero</li>
+<li>conflicto de negocio por stock insuficiente o duplicado</li>
+</ul>
+</li>
+</ol>
+<h3>Caso de negocio a cubrir</h3>
+<p>Aplicar el manejo global de errores sobre los siguientes endpoints del proyecto:</p>
+<ul>
+<li><code>GET /api/products/{id}</code></li>
+<li><code>POST /api/products</code></li>
+<li><code>POST /api/carts/{cartId}/items</code></li>
+</ul>
+<h3>Ejemplo de estructura sugerida</h3>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">record</span> <span class="hljs-title class_">ApiErrorResponse</span><span class="hljs-params">(
+    LocalDateTime timestamp,
+    <span class="hljs-type">int</span> status,
+    String error,
+    String message,
+    String path
+)</span> {}
+</code></pre><pre><code class="hljs language-java"><span class="hljs-meta">@RestControllerAdvice</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">GlobalExceptionHandler</span> {
+
+    <span class="hljs-meta">@ExceptionHandler(ResourceNotFoundException.class)</span>
+    <span class="hljs-keyword">public</span> ResponseEntity&lt;ApiErrorResponse&gt; <span class="hljs-title function_">handleNotFound</span><span class="hljs-params">(
+            ResourceNotFoundException ex,
+            HttpServletRequest request)</span> {
+
+        <span class="hljs-type">ApiErrorResponse</span> <span class="hljs-variable">response</span> <span class="hljs-operator">=</span> <span class="hljs-keyword">new</span> <span class="hljs-title class_">ApiErrorResponse</span>(
+                LocalDateTime.now(),
+                <span class="hljs-number">404</span>,
+                <span class="hljs-string">&quot;Not Found&quot;</span>,
+                ex.getMessage(),
+                request.getRequestURI()
+        );
+
+        <span class="hljs-keyword">return</span> ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+}
+</code></pre><pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">ProductRequestDto</span> {
+
+    <span class="hljs-meta">@NotBlank(message = &quot;El nombre no puede estar vacio&quot;)</span>
+    <span class="hljs-keyword">private</span> String name;
+
+    <span class="hljs-meta">@NotNull(message = &quot;El precio es obligatorio&quot;)</span>
+    <span class="hljs-meta">@Positive(message = &quot;El precio debe ser mayor a cero&quot;)</span>
+    <span class="hljs-keyword">private</span> BigDecimal price;
+}
+</code></pre><h2>Entrega esperada</h2>
+<ul>
+<li>Codigo funcional y compilable.</li>
+<li><code>@RestControllerAdvice</code> centralizando errores de la API.</li>
+<li><code>@Valid</code> activado en los DTOs de request.</li>
+<li>Respuestas HTTP semanticas: 400, 404 y 409 segun el caso.</li>
+<li>JSON uniforme de error para toda la API.</li>
+<li>Al menos tres casos reales de error probados en Postman/Insomnia.</li>
+</ul>
+<h2>Criterios de aceptacion</h2>
+<ul>
+<li>La API no devuelve errores sin formato.</li>
+<li>Los errores de validacion y de negocio están diferenciados.</li>
+<li>La clase <code>GlobalExceptionHandler</code> maneja todos los casos esperados.</li>
+<li>El endpoint de ejemplo de la clase se entiende como demostracion, mientras que la tarea aplica el mismo patron al resto del proyecto.</li>
+<li>El resultado sigue la convencion por capas del curso: controller -&gt; service -&gt; dto -&gt; exception -&gt; advice.</li>
+</ul>
+
+</body>
+</html>
