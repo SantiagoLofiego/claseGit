@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clase-06 - tarea</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Clase 06 - Tarea</h1>
+<h2>Objetivo</h2>
+<p>Aplicar query methods y JPQL para resolver búsquedas reales sobre productos en una API REST, siguiendo la misma lógica vista en clase.</p>
+<h2>Consigna</h2>
+<p>En el proyecto actual, extendé la entidad <code>Product</code> con un campo <code>category</code> tipo <code>String</code> para poder practicar consultas por categoria y ordenamiento.</p>
+<p>Tu tarea es completar la capa de acceso a datos y los endpoints necesarios para soportar las siguientes búsquedas:</p>
+<ol>
+<li>Buscar productos por nombre, ignorando mayusculas y minusculas.</li>
+<li>Buscar productos por categoria exacta.</li>
+<li>Buscar productos por rango de precios.</li>
+<li>Buscar productos por categoria y devolverlos ordenados por precio descendente.</li>
+<li>Buscar productos por nombre usando un patrón con comodines.</li>
+</ol>
+<h2>Requisitos</h2>
+<h3>1) Repository</h3>
+<p>En <code>ProductRepository</code>, agregar al menos estos métodos:</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ProductRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">JpaRepository</span>&lt;Product, Long&gt; {
+
+    List&lt;Product&gt; <span class="hljs-title function_">findByNameContainingIgnoreCase</span><span class="hljs-params">(String name)</span>;
+
+    List&lt;Product&gt; <span class="hljs-title function_">findByCategory</span><span class="hljs-params">(String category)</span>;
+
+    List&lt;Product&gt; <span class="hljs-title function_">findByPriceBetween</span><span class="hljs-params">(BigDecimal min, BigDecimal max)</span>;
+
+    <span class="hljs-meta">@Query(&quot;SELECT p FROM Product p WHERE p.category = :category ORDER BY p.price DESC&quot;)</span>
+    List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDesc</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;category&quot;)</span> String category)</span>;
+
+    <span class="hljs-meta">@Query(&quot;SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT(&#x27;%&#x27;, :name, &#x27;%&#x27;))&quot;)</span>
+    List&lt;Product&gt; <span class="hljs-title function_">searchByName</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;name&quot;)</span> String name)</span>;
+}
+</code></pre><h3>2) Controller</h3>
+<p>Agregar endpoints para consultar por:</p>
+<ul>
+<li><code>GET /api/products/search?name=...</code></li>
+<li><code>GET /api/products/category?category=...</code></li>
+<li><code>GET /api/products/price-range?min=...&amp;max=...</code></li>
+</ul>
+<p>Opcionalmente, podés agregar un endpoint para <code>GET /api/products/top-by-category?category=...</code> utilizando el método con <code>ORDER BY</code>.</p>
+<h3>3) Respuesta esperada</h3>
+<p>Los endpoints deben devolver una lista de productos en formato DTO, siguiendo la estructura ya usada en el proyecto.</p>
+<h3>4) Validaciones y prueba</h3>
+<p>Prueba los endpoints en Postman o Insomnia con datos reales cargados en H2. Verificar que:</p>
+<ul>
+<li>el filtro por nombre funciona aunque se escriba en mayusculas o minusculas</li>
+<li>el filtro por categoria devuelve solo productos de esa categoria</li>
+<li>el filtro por rango de precios respeta el min y max</li>
+<li>la consulta con <code>ORDER BY</code> devuelve los precios de mayor a menor</li>
+<li>el patrón con comodines devuelve coincidencias parciales</li>
+</ul>
+<h2>Criterios de aceptacion</h2>
+<ul>
+<li>El repository tiene al menos 3 query methods y 2 consultas JPQL.</li>
+<li>La clase se apoya en <code>Product</code> y sus atributos reales (<code>name</code>, <code>category</code>, <code>price</code>).</li>
+<li>La lógica de consulta no está mezclada en el controller.</li>
+<li>El acceso a datos está encapsulado en el repository.</li>
+<li>Se prueban los endpoints con datos reales y se revisa el orden de la respuesta.</li>
+</ul>
+<h2>Desafío adicional</h2>
+<p>Agregar una consulta para contar cuántos productos hay por categoria:</p>
+<pre><code class="hljs language-java">Long <span class="hljs-title function_">countByCategory</span><span class="hljs-params">(String category)</span>;
+</code></pre><p>Esto te ayuda a entender que los query methods también sirven para métricas simples de negocio.</p>
+<h2>Sugerencia de entrega</h2>
+<p>Documentá en una breve nota qué método elegiste en cada caso y por qué:</p>
+<ul>
+<li>query method para filtros sencillos</li>
+<li>JPQL para ordenamiento y reglas más complejas</li>
+<li>patrón con comodines para búsquedas de texto libres</li>
+</ul>
+<p>Esto te permite demostrar que no estás usando la sintaxis a ciegas, sino que entendés el propósito de cada enfoque.</p>
+
+</body>
+</html>

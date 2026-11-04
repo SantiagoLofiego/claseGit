@@ -149,14 +149,35 @@ Mini entregable:
 Ejercicio:
 - Agregar reglas de negocio con excepciones claras (stock insuficiente, por ejemplo).
 
-## Clase 6 - Consultas, filtros y paginacion
+## Clase 6 - Consultas con query methods y JPQL
 Objetivo:
-- Exponer endpoints escalables para listados.
+- Aprender a consultar entidades desde Spring Data y JPQL sin caer en SQL acoplado al motor.
 
 Temas:
-- Paginacion y sorting con Spring Data.
-- Filtros simples por query params.
-- Criterios de busqueda y performance basica.
+- Query methods: findBy..., ExistsBy..., And/Or, ordenamiento.
+- JPQL: @Query y consultas con SELECT sobre entidades.
+- Diferencia entre query methods, JPQL y SQL nativo.
+- Criterios de consulta y comprension del modelo JPA.
+
+Entrega esperada:
+- Repositorios con consultas personalizadas para Product y Cart.
+- Endpoints de busqueda simples basados en nombre, categoria o referencia.
+
+Mini entregable:
+- Consulta funcional con query method o JPQL sobre un caso real del dominio.
+
+Ejercicio:
+- Buscar productos por nombre o categoria y ordenar resultados por precio.
+
+## Clase 7 - Paginacion, sorting y filtros avanzados
+Objetivo:
+- Exponer listados escalables y reutilizables para APIs reales.
+
+Temas:
+- Paginacion con Pageable, PageRequest y Page.
+- Sorting por columnas y campos relacionados.
+- Filtros por query params combinados.
+- Performance y decisiones de negocio en listados grandes.
 
 Entrega esperada:
 - GET /api/products con paginacion, orden y filtro por nombre/categoria.
@@ -165,9 +186,9 @@ Mini entregable:
 - Endpoint de listado escalable listo para crecer en volumen.
 
 Ejercicio:
-- Endpoint de listado de ordenes por estado y fecha.
+- Endpoint de listado de ordenes por estado y fecha, con paginacion y orden por fecha descendente.
 
-## Clase 7 - Observabilidad y configuracion por ambientes
+## Clase 8 - Observabilidad y configuracion por ambientes
 Objetivo:
 - Acercarse a estandares operativos de produccion.
 

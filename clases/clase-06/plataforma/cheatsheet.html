@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clase-06 - cheatsheet</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Clase 06 - Cheatsheet</h1>
+<h2>1) Dependencias y base de la clase</h2>
+<p>Si todavía no están en el proyecto, estas son las dependencias mínimas para trabajar con JPA y consultas:</p>
+<pre><code class="hljs language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+
+<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.h2database<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>h2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
+    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
+<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
+</code></pre><p>Y una entidad base para estas consultas:</p>
+<pre><code class="hljs language-java"><span class="hljs-meta">@Entity</span>
+<span class="hljs-meta">@Table(name = &quot;products&quot;)</span>
+<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Product</span> {
+
+    <span class="hljs-meta">@Id</span>
+    <span class="hljs-meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span>
+    <span class="hljs-keyword">private</span> Long id;
+
+    <span class="hljs-meta">@Column(nullable = false)</span>
+    <span class="hljs-keyword">private</span> String name;
+
+    <span class="hljs-meta">@Column(nullable = false)</span>
+    <span class="hljs-keyword">private</span> String category;
+
+    <span class="hljs-meta">@Column(nullable = false)</span>
+    <span class="hljs-keyword">private</span> BigDecimal price;
+
+    <span class="hljs-meta">@Column(nullable = false)</span>
+    <span class="hljs-keyword">private</span> Integer stock;
+
+    <span class="hljs-comment">// getters y setters</span>
+}
+</code></pre><h2>2) Patron general de un query method</h2>
+<p>La sintaxis mas frecuente es:</p>
+<pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByCampoCondicion</span><span class="hljs-params">(...)</span>;
+</code></pre><p>Ejemplos:</p>
+<pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByCategory</span><span class="hljs-params">(String category)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByPriceBetween</span><span class="hljs-params">(BigDecimal min, BigDecimal max)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByNameContainingIgnoreCase</span><span class="hljs-params">(String name)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDesc</span><span class="hljs-params">(String category)</span>;
+</code></pre><p>La idea es que Spring Data toma el nombre del método y lo convierte en una consulta JPQL.</p>
+<h2>3) Palabras clave comunes en query methods</h2>
+<p>A continuacion, una referencia rápida de las mas usadas.</p>
+<table>
+<thead>
+<tr>
+<th>Keyword</th>
+<th>Ejemplo</th>
+<th>Significado</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>And</code></td>
+<td><code>findByCategoryAndPriceLessThan(...)</code></td>
+<td>Combina dos condiciones.</td>
+</tr>
+<tr>
+<td><code>Or</code></td>
+<td><code>findByCategoryOrNameContaining(...)</code></td>
+<td>Evalúa una u otra condición.</td>
+</tr>
+<tr>
+<td><code>Is</code> / <code>Equals</code></td>
+<td><code>findByCategoryIs(...)</code> o <code>findByCategoryEquals(...)</code></td>
+<td>Igualdad exacta.</td>
+</tr>
+<tr>
+<td><code>Not</code></td>
+<td><code>findByStockNot(...)</code></td>
+<td>Negación de una condición.</td>
+</tr>
+<tr>
+<td><code>Between</code></td>
+<td><code>findByPriceBetween(...)</code></td>
+<td>Busca dentro de un rango.</td>
+</tr>
+<tr>
+<td><code>LessThan</code></td>
+<td><code>findByPriceLessThan(...)</code></td>
+<td>Menor que un valor.</td>
+</tr>
+<tr>
+<td><code>LessThanEqual</code></td>
+<td><code>findByPriceLessThanEqual(...)</code></td>
+<td>Menor o igual que un valor.</td>
+</tr>
+<tr>
+<td><code>GreaterThan</code></td>
+<td><code>findByStockGreaterThan(...)</code></td>
+<td>Mayor que un valor.</td>
+</tr>
+<tr>
+<td><code>GreaterThanEqual</code></td>
+<td><code>findByStockGreaterThanEqual(...)</code></td>
+<td>Mayor o igual que un valor.</td>
+</tr>
+<tr>
+<td><code>Like</code></td>
+<td><code>findByNameLike(...)</code></td>
+<td>Busca con wildcard.</td>
+</tr>
+<tr>
+<td><code>Containing</code></td>
+<td><code>findByNameContaining(...)</code></td>
+<td>Contiene texto.</td>
+</tr>
+<tr>
+<td><code>StartingWith</code></td>
+<td><code>findByNameStartingWith(...)</code></td>
+<td>Empieza con texto.</td>
+</tr>
+<tr>
+<td><code>EndingWith</code></td>
+<td><code>findByNameEndingWith(...)</code></td>
+<td>Termina con texto.</td>
+</tr>
+<tr>
+<td><code>IgnoreCase</code></td>
+<td><code>findByNameContainingIgnoreCase(...)</code></td>
+<td>Ignora mayusculas/minusculas.</td>
+</tr>
+<tr>
+<td><code>In</code></td>
+<td><code>findByCategoryIn(...)</code></td>
+<td>Busca dentro de una lista de valores.</td>
+</tr>
+<tr>
+<td><code>NotIn</code></td>
+<td><code>findByCategoryNotIn(...)</code></td>
+<td>Excluye una lista de valores.</td>
+</tr>
+<tr>
+<td><code>IsNull</code></td>
+<td><code>findByCategoryIsNull()</code></td>
+<td>El campo es nulo.</td>
+</tr>
+<tr>
+<td><code>IsNotNull</code></td>
+<td><code>findByCategoryIsNotNull()</code></td>
+<td>El campo tiene valor.</td>
+</tr>
+<tr>
+<td><code>True</code></td>
+<td><code>findByActiveTrue()</code></td>
+<td>Campo booleano con valor <code>true</code>.</td>
+</tr>
+<tr>
+<td><code>False</code></td>
+<td><code>findByActiveFalse()</code></td>
+<td>Campo booleano con valor <code>false</code>.</td>
+</tr>
+<tr>
+<td><code>OrderBy</code></td>
+<td><code>findByCategoryOrderByPriceDesc(...)</code></td>
+<td>Ordena el resultado.</td>
+</tr>
+<tr>
+<td><code>Asc</code></td>
+<td><code>findByCategoryOrderByPriceAsc(...)</code></td>
+<td>Orden ascendente.</td>
+</tr>
+<tr>
+<td><code>Desc</code></td>
+<td><code>findByCategoryOrderByPriceDesc(...)</code></td>
+<td>Orden descendente.</td>
+</tr>
+<tr>
+<td><code>Count</code></td>
+<td><code>countByCategory(...)</code></td>
+<td>Cuenta registros.</td>
+</tr>
+<tr>
+<td><code>Exists</code></td>
+<td><code>existsByName(...)</code></td>
+<td>Verifica si existe al menos un registro.</td>
+</tr>
+<tr>
+<td><code>Distinct</code></td>
+<td><code>findDistinctByCategory(...)</code></td>
+<td>Elimina duplicados.</td>
+</tr>
+<tr>
+<td><code>First</code> / <code>Top</code></td>
+<td><code>findFirstByCategoryOrderByPriceDesc(...)</code></td>
+<td>Trae solo el primero o los primeros.</td>
+</tr>
+</tbody></table>
+<h2>4) Ejemplos practicos con Product</h2>
+<h3>a) Comparacion por nombre</h3>
+<pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByNameContainingIgnoreCase</span><span class="hljs-params">(String name)</span>;
+</code></pre><pre><code class="hljs language-java"><span class="hljs-meta">@Query(&quot;SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT(&#x27;%&#x27;, :name, &#x27;%&#x27;))&quot;)</span>
+List&lt;Product&gt; <span class="hljs-title function_">searchByName</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;name&quot;)</span> String name)</span>;
+</code></pre><h3>b) Filtro por categoria y orden</h3>
+<pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDesc</span><span class="hljs-params">(String category)</span>;
+</code></pre><pre><code class="hljs language-java"><span class="hljs-meta">@Query(&quot;SELECT p FROM Product p WHERE p.category = :category ORDER BY p.price DESC&quot;)</span>
+List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDesc</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;category&quot;)</span> String category)</span>;
+</code></pre><h3>c) Filtro por rango de precios</h3>
+<pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByPriceBetween</span><span class="hljs-params">(BigDecimal min, BigDecimal max)</span>;
+</code></pre><pre><code class="hljs language-java"><span class="hljs-meta">@Query(&quot;SELECT p FROM Product p WHERE p.price BETWEEN :min AND :max&quot;)</span>
+List&lt;Product&gt; <span class="hljs-title function_">findProductsByPriceRange</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;min&quot;)</span> BigDecimal min, <span class="hljs-meta">@Param(&quot;max&quot;)</span> BigDecimal max)</span>;
+</code></pre><h3>d) Wildcards con <code>Like</code></h3>
+<pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByNameLike</span><span class="hljs-params">(String pattern)</span>;
+</code></pre><p>Uso comun:</p>
+<pre><code class="hljs language-java">List&lt;Product&gt; products = productRepository.findByNameLike(<span class="hljs-string">&quot;%mac%&quot;</span>);
+</code></pre><p>Esto devuelve productos cuyo nombre contiene <code>mac</code> en cualquier lugar.</p>
+<h3>e) <code>Count</code> y metricas simples</h3>
+<pre><code class="hljs language-java">Long <span class="hljs-title function_">countByCategory</span><span class="hljs-params">(String category)</span>;
+</code></pre><p>Ejemplo de uso:</p>
+<pre><code class="hljs language-java"><span class="hljs-type">Long</span> <span class="hljs-variable">total</span> <span class="hljs-operator">=</span> productRepository.countByCategory(<span class="hljs-string">&quot;electronics&quot;</span>);
+</code></pre><h2>5) Query methods que conviene recordar por nombre</h2>
+<p>Estas son algunas de las mas usadas en backend y e-commerce:</p>
+<pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByName</span><span class="hljs-params">(String name)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByNameContaining</span><span class="hljs-params">(String text)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByNameStartingWith</span><span class="hljs-params">(String prefix)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByNameEndingWith</span><span class="hljs-params">(String suffix)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByCategory</span><span class="hljs-params">(String category)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByCategoryAndPriceLessThan</span><span class="hljs-params">(String category, BigDecimal price)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrNameContaining</span><span class="hljs-params">(String category, String text)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByPriceBetween</span><span class="hljs-params">(BigDecimal min, BigDecimal max)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByStockGreaterThan</span><span class="hljs-params">(Integer stock)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByStockLessThanEqual</span><span class="hljs-params">(Integer stock)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByCategoryIn</span><span class="hljs-params">(List&lt;String&gt; categories)</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByCategoryIsNull</span><span class="hljs-params">()</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByCategoryIsNotNull</span><span class="hljs-params">()</span>;
+List&lt;Product&gt; <span class="hljs-title function_">findByStockNot</span><span class="hljs-params">(Integer stock)</span>;
+Long <span class="hljs-title function_">countByCategory</span><span class="hljs-params">(String category)</span>;
+</code></pre><h2>6) Diferencia clave: query methods vs JPQL vs SQL nativo</h2>
+<h3>Query method</h3>
+<pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDesc</span><span class="hljs-params">(String category)</span>;
+</code></pre><h3>JPQL</h3>
+<pre><code class="hljs language-java"><span class="hljs-meta">@Query(&quot;SELECT p FROM Product p WHERE p.category = :category ORDER BY p.price DESC&quot;)</span>
+List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDesc</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;category&quot;)</span> String category)</span>;
+</code></pre><h3>SQL nativo</h3>
+<pre><code class="hljs language-sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-operator">*</span>
+<span class="hljs-keyword">FROM</span> products
+<span class="hljs-keyword">WHERE</span> category <span class="hljs-operator">=</span> :category
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> price <span class="hljs-keyword">DESC</span>;
+</code></pre><h3>Regla mental para explicar en clase</h3>
+<ul>
+<li>Query method = Spring deduce la consulta por el nombre del metodo.</li>
+<li>JPQL = nosotros escribimos la consulta usando entidades y propiedades Java.</li>
+<li>SQL nativo = escribimos la consulta sobre la tabla real y columnas de la base.</li>
+</ul>
+<h2>7) Regla de oro para la clase</h2>
+<ul>
+<li>Si la condicion es simple, usa query methods.</li>
+<li>Si necesitas orden, joins, condiciones mas complejas o mas control, usa JPQL.</li>
+<li>Solo usa SQL nativo cuando realmente necesitas algo especifico de la base o no existe una buena alternativa con JPQL.</li>
+</ul>
+<h2>8) Ejemplo de combinacion recomendada</h2>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ProductRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">JpaRepository</span>&lt;Product, Long&gt; {
+
+    List&lt;Product&gt; <span class="hljs-title function_">findByNameContainingIgnoreCase</span><span class="hljs-params">(String name)</span>;
+    List&lt;Product&gt; <span class="hljs-title function_">findByCategory</span><span class="hljs-params">(String category)</span>;
+    List&lt;Product&gt; <span class="hljs-title function_">findByPriceBetween</span><span class="hljs-params">(BigDecimal min, BigDecimal max)</span>;
+    List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDesc</span><span class="hljs-params">(String category)</span>;
+    List&lt;Product&gt; <span class="hljs-title function_">findByCategoryIsNotNull</span><span class="hljs-params">()</span>;
+    Long <span class="hljs-title function_">countByCategory</span><span class="hljs-params">(String category)</span>;
+
+    <span class="hljs-meta">@Query(&quot;SELECT p FROM Product p WHERE p.category = :category ORDER BY p.price DESC&quot;)</span>
+    List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDescQuery</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;category&quot;)</span> String category)</span>;
+}
+</code></pre><p>Esto deja muy claro que en una API real se mezclan ambos enfoques: query methods para lo simple, JPQL para lo que necesita mayor control.</p>
+<h2>9) Mini checklist para el alumno</h2>
+<p>Antes de entregar la tarea, revisar:</p>
+<ul>
+<li><input disabled="" type="checkbox"> Tengo al menos 3 query methods de ejemplo.</li>
+<li><input disabled="" type="checkbox"> Tengo al menos 1 consulta con <code>OrderBy</code>.</li>
+<li><input disabled="" type="checkbox"> Tengo al menos 1 consulta con <code>Like</code> / <code>Containing</code>.</li>
+<li><input disabled="" type="checkbox"> Tengo al menos 1 consulta JPQL con <code>@Query</code>.</li>
+<li><input disabled="" type="checkbox"> Sé diferenciar <code>Product</code> vs <code>products</code>.</li>
+<li><input disabled="" type="checkbox"> Sé cuándo es mejor query method y cuándo JPQL.</li>
+<li><input disabled="" type="checkbox"> Puedo explicar la diferencia entre <code>name</code>, <code>category</code>, <code>price</code> y sus nombres de columna en SQL.</li>
+</ul>
+
+</body>
+</html>
