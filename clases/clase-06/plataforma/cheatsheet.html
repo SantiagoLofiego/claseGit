@@ -133,42 +133,7 @@
 </head>
 <body>
 <h1>Clase 06 - Cheatsheet</h1>
-<h2>1) Dependencias y base de la clase</h2>
-<p>Si todavía no están en el proyecto, estas son las dependencias mínimas para trabajar con JPA y consultas:</p>
-<pre><code class="hljs language-xml"><span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>org.springframework.boot<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-
-<span class="hljs-tag">&lt;<span class="hljs-name">dependency</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">groupId</span>&gt;</span>com.h2database<span class="hljs-tag">&lt;/<span class="hljs-name">groupId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">artifactId</span>&gt;</span>h2<span class="hljs-tag">&lt;/<span class="hljs-name">artifactId</span>&gt;</span>
-    <span class="hljs-tag">&lt;<span class="hljs-name">scope</span>&gt;</span>runtime<span class="hljs-tag">&lt;/<span class="hljs-name">scope</span>&gt;</span>
-<span class="hljs-tag">&lt;/<span class="hljs-name">dependency</span>&gt;</span>
-</code></pre><p>Y una entidad base para estas consultas:</p>
-<pre><code class="hljs language-java"><span class="hljs-meta">@Entity</span>
-<span class="hljs-meta">@Table(name = &quot;products&quot;)</span>
-<span class="hljs-keyword">public</span> <span class="hljs-keyword">class</span> <span class="hljs-title class_">Product</span> {
-
-    <span class="hljs-meta">@Id</span>
-    <span class="hljs-meta">@GeneratedValue(strategy = GenerationType.IDENTITY)</span>
-    <span class="hljs-keyword">private</span> Long id;
-
-    <span class="hljs-meta">@Column(nullable = false)</span>
-    <span class="hljs-keyword">private</span> String name;
-
-    <span class="hljs-meta">@Column(nullable = false)</span>
-    <span class="hljs-keyword">private</span> String category;
-
-    <span class="hljs-meta">@Column(nullable = false)</span>
-    <span class="hljs-keyword">private</span> BigDecimal price;
-
-    <span class="hljs-meta">@Column(nullable = false)</span>
-    <span class="hljs-keyword">private</span> Integer stock;
-
-    <span class="hljs-comment">// getters y setters</span>
-}
-</code></pre><h2>2) Patron general de un query method</h2>
+<h2>1) Patron general de un query method</h2>
 <p>La sintaxis mas frecuente es:</p>
 <pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByCampoCondicion</span><span class="hljs-params">(...)</span>;
 </code></pre><p>Ejemplos:</p>
@@ -177,7 +142,7 @@ List&lt;Product&gt; <span class="hljs-title function_">findByPriceBetween</span>
 List&lt;Product&gt; <span class="hljs-title function_">findByNameContainingIgnoreCase</span><span class="hljs-params">(String name)</span>;
 List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDesc</span><span class="hljs-params">(String category)</span>;
 </code></pre><p>La idea es que Spring Data toma el nombre del método y lo convierte en una consulta JPQL.</p>
-<h2>3) Palabras clave comunes en query methods</h2>
+<h2>2) Palabras clave comunes en query methods</h2>
 <p>A continuacion, una referencia rápida de las mas usadas.</p>
 <table>
 <thead>
@@ -323,7 +288,7 @@ List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPric
 <td>Trae solo el primero o los primeros.</td>
 </tr>
 </tbody></table>
-<h2>4) Ejemplos practicos con Product</h2>
+<h2>3) Ejemplos practicos con Product</h2>
 <h3>a) Comparacion por nombre</h3>
 <pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByNameContainingIgnoreCase</span><span class="hljs-params">(String name)</span>;
 </code></pre><pre><code class="hljs language-java"><span class="hljs-meta">@Query(&quot;SELECT p FROM Product p WHERE LOWER(p.name) LIKE LOWER(CONCAT(&#x27;%&#x27;, :name, &#x27;%&#x27;))&quot;)</span>
@@ -345,7 +310,7 @@ List&lt;Product&gt; <span class="hljs-title function_">findProductsByPriceRange<
 <pre><code class="hljs language-java">Long <span class="hljs-title function_">countByCategory</span><span class="hljs-params">(String category)</span>;
 </code></pre><p>Ejemplo de uso:</p>
 <pre><code class="hljs language-java"><span class="hljs-type">Long</span> <span class="hljs-variable">total</span> <span class="hljs-operator">=</span> productRepository.countByCategory(<span class="hljs-string">&quot;electronics&quot;</span>);
-</code></pre><h2>5) Query methods que conviene recordar por nombre</h2>
+</code></pre><h2>4) Query methods que conviene recordar por nombre</h2>
 <p>Estas son algunas de las mas usadas en backend y e-commerce:</p>
 <pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByName</span><span class="hljs-params">(String name)</span>;
 List&lt;Product&gt; <span class="hljs-title function_">findByNameContaining</span><span class="hljs-params">(String text)</span>;
@@ -362,7 +327,7 @@ List&lt;Product&gt; <span class="hljs-title function_">findByCategoryIsNull</spa
 List&lt;Product&gt; <span class="hljs-title function_">findByCategoryIsNotNull</span><span class="hljs-params">()</span>;
 List&lt;Product&gt; <span class="hljs-title function_">findByStockNot</span><span class="hljs-params">(Integer stock)</span>;
 Long <span class="hljs-title function_">countByCategory</span><span class="hljs-params">(String category)</span>;
-</code></pre><h2>6) Diferencia clave: query methods vs JPQL vs SQL nativo</h2>
+</code></pre><h2>5) Diferencia clave: query methods vs JPQL vs SQL nativo</h2>
 <h3>Query method</h3>
 <pre><code class="hljs language-java">List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDesc</span><span class="hljs-params">(String category)</span>;
 </code></pre><h3>JPQL</h3>
@@ -373,19 +338,19 @@ List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPric
 <span class="hljs-keyword">FROM</span> products
 <span class="hljs-keyword">WHERE</span> category <span class="hljs-operator">=</span> :category
 <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> price <span class="hljs-keyword">DESC</span>;
-</code></pre><h3>Regla mental para explicar en clase</h3>
+</code></pre><h3>Entonces ...</h3>
 <ul>
 <li>Query method = Spring deduce la consulta por el nombre del metodo.</li>
 <li>JPQL = nosotros escribimos la consulta usando entidades y propiedades Java.</li>
 <li>SQL nativo = escribimos la consulta sobre la tabla real y columnas de la base.</li>
 </ul>
-<h2>7) Regla de oro para la clase</h2>
+<h2>6) Regla de oro</h2>
 <ul>
 <li>Si la condicion es simple, usa query methods.</li>
 <li>Si necesitas orden, joins, condiciones mas complejas o mas control, usa JPQL.</li>
 <li>Solo usa SQL nativo cuando realmente necesitas algo especifico de la base o no existe una buena alternativa con JPQL.</li>
 </ul>
-<h2>8) Ejemplo de combinacion recomendada</h2>
+<h2>7) Ejemplo de combinacion recomendada</h2>
 <pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ProductRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">JpaRepository</span>&lt;Product, Long&gt; {
 
     List&lt;Product&gt; <span class="hljs-title function_">findByNameContainingIgnoreCase</span><span class="hljs-params">(String name)</span>;
@@ -399,17 +364,6 @@ List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPric
     List&lt;Product&gt; <span class="hljs-title function_">findByCategoryOrderByPriceDescQuery</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;category&quot;)</span> String category)</span>;
 }
 </code></pre><p>Esto deja muy claro que en una API real se mezclan ambos enfoques: query methods para lo simple, JPQL para lo que necesita mayor control.</p>
-<h2>9) Mini checklist para el alumno</h2>
-<p>Antes de entregar la tarea, revisar:</p>
-<ul>
-<li><input disabled="" type="checkbox"> Tengo al menos 3 query methods de ejemplo.</li>
-<li><input disabled="" type="checkbox"> Tengo al menos 1 consulta con <code>OrderBy</code>.</li>
-<li><input disabled="" type="checkbox"> Tengo al menos 1 consulta con <code>Like</code> / <code>Containing</code>.</li>
-<li><input disabled="" type="checkbox"> Tengo al menos 1 consulta JPQL con <code>@Query</code>.</li>
-<li><input disabled="" type="checkbox"> Sé diferenciar <code>Product</code> vs <code>products</code>.</li>
-<li><input disabled="" type="checkbox"> Sé cuándo es mejor query method y cuándo JPQL.</li>
-<li><input disabled="" type="checkbox"> Puedo explicar la diferencia entre <code>name</code>, <code>category</code>, <code>price</code> y sus nombres de columna en SQL.</li>
-</ul>
 
 </body>
 </html>
