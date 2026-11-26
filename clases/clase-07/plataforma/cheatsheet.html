@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>clase-07 - cheatsheet</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Clase 07 - Cheatsheet</h1>
+<h2><code>Pageable</code>, <code>Page&lt;T&gt;</code> y <code>Sort</code></h2>
+<ul>
+<li>Vienen de <code>org.springframework.data.domain</code> (ya incluido con <code>spring-boot-starter-data-jpa</code>, no hace falta agregar dependencias nuevas).</li>
+<li><code>Pageable</code>: describe que pagina pedir (numero de pagina, tamano y orden).</li>
+<li><code>Page&lt;T&gt;</code>: resultado paginado, incluye el contenido y metadatos (<code>totalElements</code>, <code>totalPages</code>, <code>number</code>, etc.).</li>
+<li><code>Sort</code>: describe el orden de la consulta (puede venir incluido dentro del <code>Pageable</code>).</li>
+</ul>
+<h2>Query method con paginacion</h2>
+<p>Un query method puede recibir <code>Pageable</code> como parametro extra y devolver <code>Page&lt;T&gt;</code> en lugar de <code>List&lt;T&gt;</code>:</p>
+<pre><code class="hljs language-java"><span class="hljs-keyword">public</span> <span class="hljs-keyword">interface</span> <span class="hljs-title class_">ProductRepository</span> <span class="hljs-keyword">extends</span> <span class="hljs-title class_">JpaRepository</span>&lt;Product, Long&gt; {
+
+    Page&lt;Product&gt; <span class="hljs-title function_">findByCategory</span><span class="hljs-params">(String category, Pageable pageable)</span>;
+}
+</code></pre><h2><code>Pageable</code> como parametro de controller</h2>
+<p>Spring resuelve automaticamente un <code>Pageable</code> a partir de los query params <code>page</code>, <code>size</code> y <code>sort</code> si se lo pedis como parametro del metodo:</p>
+<pre><code class="hljs language-java"><span class="hljs-meta">@GetMapping</span>
+<span class="hljs-keyword">public</span> Page&lt;ProductResponseDto&gt; <span class="hljs-title function_">listProducts</span><span class="hljs-params">(Pageable pageable)</span> {
+    Page&lt;Product&gt; products = productRepository.findAll(pageable);
+    <span class="hljs-keyword">return</span> products.map(ProductMapper::toResponseDto);
+}
+</code></pre><p>Query params de ejemplo para probar en Postman/Insomnia:</p>
+<ul>
+<li><code>GET /api/products?page=0&amp;size=10</code></li>
+<li><code>GET /api/products?page=0&amp;size=10&amp;sort=price,desc</code></li>
+<li>Multiples campos de orden: <code>?sort=category,asc&amp;sort=price,desc</code></li>
+</ul>
+<h2>JPQL con <code>Pageable</code></h2>
+<p>El mismo <code>@Query</code> visto en clase 06 puede recibir <code>Pageable</code> sin cambiar su forma:</p>
+<pre><code class="hljs language-java"><span class="hljs-meta">@Query(&quot;SELECT p FROM Product p WHERE p.category = :category&quot;)</span>
+Page&lt;Product&gt; <span class="hljs-title function_">findByCategory</span><span class="hljs-params">(<span class="hljs-meta">@Param(&quot;category&quot;)</span> String category, Pageable pageable)</span>;
+</code></pre><h2>Patron: filtros opcionales combinados en JPQL</h2>
+<p>Cuando un filtro puede venir o no en la consulta (es opcional), una forma comun de resolverlo en JPQL es comparar el parametro contra <code>NULL</code> para &quot;desactivar&quot; esa condicion cuando no se envia:</p>
+<pre><code class="hljs language-java"><span class="hljs-meta">@Query(&quot;&quot;&quot;
+    SELECT e FROM Entity e
+    WHERE (:filtroA IS NULL OR e.campoA = :filtroA)
+      AND (:filtroB IS NULL OR e.campoB &gt;= :filtroB)
+    &quot;&quot;&quot;)</span>
+Page&lt;Entity&gt; <span class="hljs-title function_">buscarConFiltrosOpcionales</span><span class="hljs-params">(
+        <span class="hljs-meta">@Param(&quot;filtroA&quot;)</span> String filtroA,
+        <span class="hljs-meta">@Param(&quot;filtroB&quot;)</span> BigDecimal filtroB,
+        Pageable pageable)</span>;
+</code></pre><ul>
+<li>Cada condicion se &quot;apaga&quot; sola cuando su parametro llega en <code>null</code> desde el controller (por ejemplo, un <code>@RequestParam(required = false)</code> que no se envio).</li>
+<li>El mismo patron se puede repetir y encadenar con <code>AND</code> para combinar tantos filtros opcionales como haga falta.</li>
+<li>Este es el patron general: adaptalo a los campos y tipos concretos que necesites resolver en tu caso.</li>
+</ul>
+<h2>Mapear <code>Page&lt;Entity&gt;</code> a <code>Page&lt;Dto&gt;</code></h2>
+<p><code>Page&lt;T&gt;</code> tiene su propio <code>.map()</code>, que transforma el contenido sin perder los metadatos de paginacion:</p>
+<pre><code class="hljs language-java">Page&lt;ProductResponseDto&gt; dtoPage = productPage.map(ProductMapper::toResponseDto);
+</code></pre><h2>Recordatorio de query params HTTP</h2>
+<ul>
+<li><code>page</code>: numero de pagina, arranca en <code>0</code>.</li>
+<li><code>size</code>: cantidad de elementos por pagina.</li>
+<li><code>sort</code>: <code>campo,asc</code> o <code>campo,desc</code> (se puede repetir para ordenar por mas de un campo).</li>
+<li>Los filtros propios (por ejemplo, <code>category</code>, rango de precio, etc.) se agregan como query params adicionales y se resuelven con <code>@RequestParam(required = false)</code> en el controller.</li>
+</ul>
+
+</body>
+</html>

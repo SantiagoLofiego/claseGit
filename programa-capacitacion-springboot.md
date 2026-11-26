@@ -180,13 +180,13 @@ Temas:
 - Performance y decisiones de negocio en listados grandes.
 
 Entrega esperada:
-- GET /api/products con paginacion, orden y filtro por nombre/categoria.
+- GET /api/products con paginacion, orden y filtro por categoria.
 
 Mini entregable:
 - Endpoint de listado escalable listo para crecer en volumen.
 
 Ejercicio:
-- Endpoint de listado de ordenes por estado y fecha, con paginacion y orden por fecha descendente.
+- Extender GET /api/products para soportar filtros combinables (categoria + rango de precio) junto con paginacion y orden, resueltos con JPQL y condiciones opcionales (patron `:param IS NULL`). Se dejo de lado el ejemplo original de ordenes por estado/fecha porque la entidad Order todavia no existe en el proyecto en esta etapa del curso.
 
 ## Clase 8 - Observabilidad y configuracion por ambientes
 Objetivo:
@@ -354,3 +354,4 @@ Cada clase debe tener su carpeta con material reutilizable:
 - 2026-08-05: Ajuste con decisiones reales del curso (duracion, Java 21, H2, Git y mini entregables).
 - 2026-08-05: Clase 01 cerrada con materiales completos y exportacion HTML para plataforma.
 - 2026-09-03: Reorden de clases para dejar Documentacion API, Testing y Seguridad al final como extension opcional.
+- 2026-11-26: Clase 07 cerrada (paginacion, sorting y filtros). Actividad en clase: `GET /api/products` paginado con filtro simple por `category`. Tarea: filtros combinables (`category` + rango de precio) resueltos con JPQL y condiciones opcionales. Se ajusto el ejercicio original del programa (ordenes por estado/fecha) porque la entidad Order aun no existe en esta etapa.
