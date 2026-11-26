@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>entrega-parcial - tarea</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      max-width: 860px;
+      margin: 40px auto;
+      padding: 0 24px;
+      color: #d4d4d4;
+      background: #1e1e1e;
+      line-height: 1.6;
+    }
+    h1, h2, h3 { color: #4fc1ff; border-bottom: 1px solid #3c3c3c; padding-bottom: 6px; }
+    code {
+      background: #252526;
+      border-radius: 4px;
+      padding: 2px 6px;
+      font-family: 'Cascadia Code', 'Fira Code', 'Consolas', monospace;
+      font-size: 0.9em;
+      color: #ce9178;
+    }
+    pre {
+      background: #1e1e1e;
+      border: 1px solid #3c3c3c;
+      border-left: 4px solid #569cd6;
+      border-radius: 4px;
+      padding: 16px;
+      overflow-x: auto;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+    }
+    pre code { background: none; padding: 0; }
+    .hljs {
+      color: #d4d4d4;
+      background: transparent;
+    }
+    .hljs-comment,
+    .hljs-quote {
+      color: #6a9955;
+      font-style: italic;
+    }
+    .hljs-keyword,
+    .hljs-selector-tag,
+    .hljs-subst {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .hljs-number,
+    .hljs-literal,
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-tag .hljs-attr {
+      color: #b5cea8;
+    }
+    .hljs-string,
+    .hljs-doctag {
+      color: #ce9178;
+    }
+    .hljs-title,
+    .hljs-section,
+    .hljs-selector-id {
+      color: #dcdcaa;
+      font-weight: 600;
+    }
+    .hljs-type,
+    .hljs-class .hljs-title {
+      color: #4ec9b0;
+      font-weight: 600;
+    }
+    .hljs-attribute,
+    .hljs-name,
+    .hljs-tag {
+      color: #9cdcfe;
+    }
+    .hljs-built_in,
+    .hljs-builtin-name {
+      color: #4ec9b0;
+    }
+    .hljs-params {
+      color: #9cdcfe;
+    }
+    .hljs-function .hljs-title,
+    .hljs-title.function_ {
+      color: #dcdcaa;
+    }
+    .language-json .hljs-attr {
+      color: #9cdcfe;
+      font-weight: 600;
+    }
+    .language-json .hljs-string {
+      color: #ce9178;
+    }
+    .language-json .hljs-number {
+      color: #b5cea8;
+      font-weight: 600;
+    }
+    .language-json .hljs-literal {
+      color: #569cd6;
+      font-weight: 600;
+    }
+    .language-json .hljs-punctuation {
+      color: #d4d4d4;
+    }
+    p, li, td, th {
+      color: #d4d4d4;
+    }
+    a {
+      color: #4fc1ff;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin: 16px 0;
+    }
+    th, td {
+      border: 1px solid #3c3c3c;
+      padding: 8px 12px;
+      text-align: left;
+    }
+    th { background: #252526; font-weight: 600; }
+    blockquote {
+      border-left: 4px solid #569cd6;
+      margin: 0;
+      padding: 8px 16px;
+      color: #9cdcfe;
+      background: #252526;
+    }
+    hr { border: none; border-top: 1px solid #3c3c3c; margin: 24px 0; }
+  </style>
+</head>
+<body>
+<h1>Entrega Final Springboot</h1>
+<h2>Objetivo</h2>
+<p>Esta entrega integra, en un unico proyecto funcional, todos los ejercicios y tareas resueltos desde la clase 07 hasta la clase 13. No incorpora contenido nuevo: es la consolidacion de lo que ya se trabajo clase a clase.</p>
+<p>El objetivo es verificar que el proyecto completo compila, levanta y responde correctamente, con la arquitectura por capas (<code>controller</code> -&gt; <code>service</code> -&gt; <code>dto</code> -&gt; <code>model</code>/<code>entity</code> -&gt; <code>repository</code>) sostenida de punta a punta.</p>
+<h2>Alcance</h2>
+<p>Resumen por clase de lo que debe estar resuelto e integrado:</p>
+<ul>
+<li><strong>Clase 07</strong>: modulo <code>Product</code> en memoria, con endpoints basicos y DTOs de entrada/salida.</li>
+<li><strong>Clase 08</strong>: validaciones con Bean Validation sobre <code>ProductRequestDto</code> y sobre un DTO nuevo (<code>CustomerRequestDto</code>).</li>
+<li><strong>Clase 09</strong>: <code>Product</code> y <code>Customer</code> persistidos con JPA/Hibernate sobre H2.</li>
+<li><strong>Clase 10</strong>: relaciones entre entidades: <code>Cart</code> / <code>CartItem</code> (<code>@OneToMany</code> / <code>@ManyToOne</code>) y <code>Customer</code> / <code>Address</code> (<code>@OneToOne</code>).</li>
+<li><strong>Clase 11</strong>: manejo global de errores con <code>@RestControllerAdvice</code>, excepciones de negocio y formato uniforme de error.</li>
+<li><strong>Clase 12</strong>: consultas con query methods y JPQL sobre <code>Product</code> (busqueda por nombre, categoria, rango de precio, orden).</li>
+<li><strong>Clase 13</strong>: paginacion, sorting y filtros combinables sobre el listado de productos.</li>
+</ul>
+<h2>Entidades (JPA)</h2>
+<h3><code>Product</code></h3>
+<ul>
+<li><code>id</code>: <code>Long</code></li>
+<li><code>name</code>: <code>String</code></li>
+<li><code>description</code>: <code>String</code></li>
+<li><code>category</code>: <code>String</code></li>
+<li><code>price</code>: <code>BigDecimal</code></li>
+<li><code>stock</code>: <code>Integer</code></li>
+</ul>
+<h3><code>Customer</code></h3>
+<ul>
+<li><code>id</code>: <code>Long</code></li>
+<li><code>firstName</code>: <code>String</code></li>
+<li><code>lastName</code>: <code>String</code></li>
+<li><code>email</code>: <code>String</code></li>
+<li><code>phone</code>: <code>String</code></li>
+<li><code>address</code>: <code>Address</code> (relacion <code>@OneToOne</code>, unidireccional, <code>@JoinColumn(name = &quot;address_id&quot;, unique = true)</code>)</li>
+</ul>
+<h3><code>Address</code></h3>
+<ul>
+<li><code>id</code>: <code>Long</code></li>
+<li><code>street</code>: <code>String</code></li>
+<li><code>city</code>: <code>String</code></li>
+<li><code>zipCode</code>: <code>String</code></li>
+</ul>
+<h3><code>Cart</code></h3>
+<ul>
+<li><code>id</code>: <code>Long</code></li>
+<li><code>items</code>: <code>List&lt;CartItem&gt;</code> (relacion <code>@OneToMany(mappedBy = &quot;cart&quot;, cascade = CascadeType.ALL, orphanRemoval = true)</code>)</li>
+<li>Metodo helper <code>addItem(CartItem item)</code> que sincroniza ambos lados de la relacion.</li>
+</ul>
+<h3><code>CartItem</code></h3>
+<ul>
+<li><code>id</code>: <code>Long</code></li>
+<li><code>cart</code>: <code>Cart</code> (<code>@ManyToOne</code>, lado dueno de la relacion con <code>Cart</code>)</li>
+<li><code>product</code>: <code>Product</code> (<code>@ManyToOne</code>, relacion unidireccional)</li>
+<li><code>quantity</code>: <code>Integer</code></li>
+</ul>
+<h2>DTOs esperados</h2>
+<h3>Product</h3>
+<ul>
+<li><code>ProductRequestDto</code>: <code>name</code>, <code>description</code>, <code>category</code>, <code>price</code>, <code>stock</code> (con validaciones: <code>name</code> obligatorio, <code>price</code> positivo, <code>stock</code> mayor o igual a cero).</li>
+<li><code>ProductResponseDto</code>: <code>id</code>, <code>name</code>, <code>description</code>, <code>category</code>, <code>price</code>, <code>stock</code>.</li>
+<li><code>ProductStockUpdateDto</code>: <code>quantity</code> (cantidad a sumar al stock existente; el producto se identifica por <code>{id}</code> en la URL, no en el body).</li>
+</ul>
+<h3>Customer</h3>
+<ul>
+<li><code>CustomerRequestDto</code>: <code>firstName</code>, <code>lastName</code>, <code>email</code>, <code>phone</code> (con las validaciones definidas en clase 02: <code>firstName</code>/<code>lastName</code> obligatorios con minimo de caracteres, <code>email</code> con formato valido, <code>phone</code> opcional con minimo de digitos si se envia).</li>
+<li><code>CustomerResponseDto</code>: <code>id</code>, <code>firstName</code>, <code>lastName</code>, <code>email</code>, <code>phone</code>.</li>
+</ul>
+<h3>Cart</h3>
+<ul>
+<li><code>CartItemResponseDto</code>: <code>productId</code>, <code>productName</code>, <code>price</code>, <code>quantity</code>.</li>
+<li><code>CartResponseDto</code>: <code>id</code>, <code>items</code> (lista de <code>CartItemResponseDto</code>).</li>
+<li><code>AddCartItemRequestDto</code>: <code>productId</code> (obligatorio), <code>quantity</code> (obligatorio, mayor a cero).</li>
+</ul>
+<h3>Errores</h3>
+<ul>
+<li><code>ApiErrorResponse</code>: <code>timestamp</code>, <code>status</code>, <code>error</code>, <code>message</code>, <code>path</code>.</li>
+</ul>
+<h2>Repositorios</h2>
+<ul>
+<li><code>ProductRepository extends JpaRepository&lt;Product, Long&gt;</code>, con:<ul>
+<li>Query methods: busqueda por nombre (ignorando mayusculas/minusculas), por categoria, por rango de precio.</li>
+<li>Al menos una consulta JPQL con <code>@Query</code> (por ejemplo, orden por precio descendente dentro de una categoria).</li>
+<li>Un metodo que reciba <code>Pageable</code> y devuelva <code>Page&lt;Product&gt;</code>, soportando los filtros combinables de la clase 07 (<code>category</code>, rango de precio).</li>
+</ul>
+</li>
+<li><code>CustomerRepository extends JpaRepository&lt;Customer, Long&gt;</code>.</li>
+<li><code>CartRepository extends JpaRepository&lt;Cart, Long&gt;</code> (no hace falta repository propio para <code>CartItem</code>: se gestiona en cascada a traves de <code>Cart</code>).</li>
+</ul>
+<h2>Servicios</h2>
+<ul>
+<li><code>ProductService</code>: listar (con paginacion y filtros), buscar por id, crear, actualizar stock, lanzar <code>ResourceNotFoundException</code> cuando corresponda.</li>
+<li><code>CustomerService</code>: listar, buscar por id, crear, lanzar <code>ResourceNotFoundException</code> cuando corresponda.</li>
+<li><code>CartService</code>: crear carrito vacio, buscar carrito por id, agregar item a un carrito existente (resolviendo <code>Cart</code> y <code>Product</code> por id y usando <code>cart.addItem(item)</code>), lanzando <code>ResourceNotFoundException</code> o <code>ConflictException</code> segun el caso.</li>
+</ul>
+<h2>Manejo global de errores</h2>
+<ul>
+<li><code>GlobalExceptionHandler</code> anotado con <code>@RestControllerAdvice</code>, con handlers para:<ul>
+<li><code>ResourceNotFoundException</code> -&gt; HTTP 404</li>
+<li><code>ConflictException</code> -&gt; HTTP 409</li>
+<li><code>MethodArgumentNotValidException</code> -&gt; HTTP 400</li>
+<li><code>Exception</code> (fallback) -&gt; HTTP 500</li>
+</ul>
+</li>
+<li>Todas las respuestas de error deben devolver un <code>ApiErrorResponse</code> con el mismo formato, sin exponer detalles internos (stack traces) al cliente.</li>
+</ul>
+<h2>Endpoints esperados</h2>
+<h3>Product</h3>
+<ul>
+<li><code>GET /api/products</code> (con soporte de <code>page</code>, <code>size</code>, <code>sort</code> y filtros combinables <code>category</code>, <code>minPrice</code>, <code>maxPrice</code>)</li>
+<li><code>GET /api/products/{id}</code></li>
+<li><code>POST /api/products</code></li>
+<li><code>PATCH /api/products/{id}/stock</code></li>
+<li><code>GET /api/products/search?name=...</code></li>
+<li><code>GET /api/products/category?category=...</code></li>
+<li><code>GET /api/products/price-range?min=...&amp;max=...</code></li>
+</ul>
+<h3>Customer</h3>
+<ul>
+<li><code>GET /api/customers</code></li>
+<li><code>GET /api/customers/{id}</code></li>
+<li><code>POST /api/customers</code></li>
+</ul>
+<h3>Cart</h3>
+<ul>
+<li><code>POST /api/carts</code></li>
+<li><code>GET /api/carts/{id}</code></li>
+<li><code>POST /api/carts/{cartId}/items</code></li>
+</ul>
+<h2>Validaciones esperadas</h2>
+<ul>
+<li><code>@Valid</code> activo en todos los <code>@RequestBody</code> que lo requieran (<code>ProductRequestDto</code>, <code>CustomerRequestDto</code>, <code>AddCartItemRequestDto</code>).</li>
+<li>Reglas minimas: campos obligatorios no vacios, <code>price</code> positivo, <code>stock</code>/<code>quantity</code> no negativos, <code>email</code> con formato valido.</li>
+<li>Los errores de validacion deben responder con HTTP 400 y el formato uniforme de <code>ApiErrorResponse</code>.</li>
+</ul>
+<h2>Persistencia</h2>
+<ul>
+<li>Todas las entidades (<code>Product</code>, <code>Customer</code>, <code>Address</code>, <code>Cart</code>, <code>CartItem</code>) persistidas en H2.</li>
+<li>Relaciones correctamente mapeadas:<ul>
+<li><code>Cart</code> (1) -&gt; <code>CartItem</code> (N), <code>mappedBy = &quot;cart&quot;</code>.</li>
+<li><code>CartItem</code> (N) -&gt; <code>Product</code> (1), unidireccional.</li>
+<li><code>Customer</code> (1) -&gt; <code>Address</code> (1), unidireccional, con <code>unique = true</code> en el <code>@JoinColumn</code>.</li>
+</ul>
+</li>
+<li>La API nunca expone entidades JPA directamente: siempre se mapea a DTOs de respuesta.</li>
+</ul>
+<h2>Criterios de aceptacion de la entrega</h2>
+<ul>
+<li>El proyecto compila y levanta sin errores.</li>
+<li>Todos los endpoints listados responden correctamente con datos reales persistidos en H2.</li>
+<li>Las validaciones de los DTOs de entrada funcionan y devuelven HTTP 400 con formato uniforme.</li>
+<li>Los casos de error de negocio (recurso no encontrado, conflicto) devuelven el codigo HTTP correcto con <code>ApiErrorResponse</code>.</li>
+<li>El listado de productos soporta paginacion, orden y filtros combinables sin romper los endpoints de busqueda mas simples de la clase 06.</li>
+<li>Se puede demostrar el flujo completo: crear un cliente, crear un producto, crear un carrito, agregar el producto al carrito y consultarlo.</li>
+<li>La separacion por capas (<code>controller</code> / <code>service</code> / <code>dto</code> / <code>model</code> o <code>entity</code> / <code>repository</code>) se mantiene en todo el proyecto, sin mezclar entidades JPA con DTOs de API.</li>
+</ul>
+<h2>Forma de entrega</h2>
+<ul>
+<li>Repositorio Git con el proyecto completo, historial de commits legible por clase o por funcionalidad.</li>
+</ul>
+
+</body>
+</html>
